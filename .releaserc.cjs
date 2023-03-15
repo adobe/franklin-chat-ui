@@ -12,7 +12,7 @@ module.exports = {
       prepareCmd: 'npm run build',
     }],
     ['@semantic-release/git', {
-      'assets': ['package.json', 'package-lock.json', 'CHANGELOG.md', 'build/*'],
+      'assets': ['package.json', 'package-lock.json', 'CHANGELOG.md', 'build/**/*.*'],
       'message': 'chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}',
     }],
     ['@semantic-release/github', {}],

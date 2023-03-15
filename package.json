@@ -2,7 +2,7 @@
   "name": "franklin-chat-ui",
   "version": "1.0.1",
   "private": true,
-  "homepage": "https://main--franklin-chat-ui--kptdobe.hlx.page/build/",
+  "homepage": ".",
   "dependencies": {
     "@adobe/react-spectrum": "latest",
     "@spectrum-icons/illustrations": "latest",
