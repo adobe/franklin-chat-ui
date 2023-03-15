@@ -7,7 +7,7 @@ import {
   Item, ListView,
   TextArea,
   Text,
-  Image, Form, TextField, View, Badge
+  Image, TextField, Badge
 } from '@adobe/react-spectrum';
 import user from './user.png';
 import Edit from '@spectrum-icons/workflow/Edit';

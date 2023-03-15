@@ -1,4 +1,4 @@
-import React, {Fragment, PropsWithChildren, useContext, useMemo, useState} from 'react';
+import React, {Fragment, PropsWithChildren, useContext, useMemo} from 'react';
 import {ChatClient} from './ChatClient';
 
 function createApplication() {
@@ -10,6 +10,7 @@ function createApplication() {
 
 export type Application = ReturnType<typeof createApplication>;
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const Application = React.createContext<Application|undefined>(undefined);
 
 export const ApplicationProvider: React.FC<PropsWithChildren> = ({children}) => {
