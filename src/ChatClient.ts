@@ -9,6 +9,9 @@ export type Message = {
 export type ConnectionCallback = (connected: boolean) => void;
 export type MessageCallback = (history: Message[]) => void;
 
+const SERVICE_ENDPOINT = 'ws://franklin-chat-service-ns-team-sites-xp-outbound-marketing-stage.ethos09-prod-va7.ethos.adobe.net';
+//const SERVICE_ENDPOINT = 'ws://localhost:3000';
+
 export class ChatClient {
     private ws: Websocket;
 
@@ -18,7 +21,7 @@ export class ChatClient {
     private messageCallbacks: MessageCallback[] = [];
 
     constructor() {
-        this.ws = new WebsocketBuilder('ws://franklin-chat-service-ns-team-sites-xp-outbound-marketing-stage.ethos09-prod-va7.ethos.adobe.net')
+        this.ws = new WebsocketBuilder(SERVICE_ENDPOINT)
           .withBackoff(new ConstantBackoff(2000))
           .onOpen((i, ev) => { this.fireConnectionChange(true) })
           .onClose((i, ev) => { this.fireConnectionChange(false) })

@@ -1,17 +1,17 @@
 import React, {Fragment, PropsWithChildren, useContext, useMemo} from 'react';
 import {ChatClient} from './ChatClient';
+import {defaultTheme, Provider} from '@adobe/react-spectrum';
 
 function createApplication() {
   const chatClient = new ChatClient();
   return {
-    chatClient
+    chatClient,
   };
 }
 
 export type Application = ReturnType<typeof createApplication>;
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const Application = React.createContext<Application|undefined>(undefined);
+export const ApplicationContext = React.createContext<Application|undefined>(undefined);
 
 export const ApplicationProvider: React.FC<PropsWithChildren> = ({children}) => {
   const application = useMemo(createApplication, []);
@@ -21,14 +21,16 @@ export const ApplicationProvider: React.FC<PropsWithChildren> = ({children}) => 
   }
 
   return (
-    <Application.Provider value={application}>
-      {children}
-    </Application.Provider>
+    <Provider theme={defaultTheme} colorScheme="dark" height="100%">
+      <ApplicationContext.Provider value={application}>
+        {children}
+      </ApplicationContext.Provider>
+    </Provider>
   );
 };
 
 export const useApplicationContext = () => {
-  const context = useContext(Application);
+  const context = useContext(ApplicationContext);
   if (context === undefined) {
     throw new Error('useApplicationContext was used outside of its Provider');
   }
