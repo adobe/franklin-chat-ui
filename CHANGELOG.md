@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/kptdobe/franklin-chat-ui/compare/v1.0.3...v1.1.0) (2023-03-15)
+
+
+### Features
+
+* switch to dark mode ([655ff1a](https://github.com/kptdobe/franklin-chat-ui/commit/655ff1aedcc09fb6315f2a91a864307542c4cdc4))
+
 ## [1.0.3](https://github.com/kptdobe/franklin-chat-ui/compare/v1.0.2...v1.0.3) (2023-03-15)
 
 
