@@ -6,7 +6,7 @@ import {ApplicationProvider} from './Application';
 
 function Main() {
   return (
-    <Provider theme={defaultTheme} colorScheme="light" height="100%">
+    <Provider theme={defaultTheme} colorScheme="dark" height="100%">
       <div className="content-padding">
         <ApplicationProvider>
           <ChatComponent/>
