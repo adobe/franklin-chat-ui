@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/kptdobe/franklin-chat-ui/compare/v1.0.1...v1.0.2) (2023-03-15)
+
+
+### Bug Fixes
+
+* homepage ([124a846](https://github.com/kptdobe/franklin-chat-ui/commit/124a8468f0d1dca931d0dced3b2a40105b23a7d6))
+
 ## [1.0.1](https://github.com/kptdobe/franklin-chat-ui/compare/v1.0.0...v1.0.1) (2023-03-15)
 
 
