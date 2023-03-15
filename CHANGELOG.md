@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/kptdobe/franklin-chat-ui/compare/v1.1.0...v1.2.0) (2023-03-15)
+
+
+### Features
+
+* helix icon ([2800ae6](https://github.com/kptdobe/franklin-chat-ui/commit/2800ae6c2bd6ee3c69434331f27b5cf834361bdd))
+
 # [1.1.0](https://github.com/kptdobe/franklin-chat-ui/compare/v1.0.3...v1.1.0) (2023-03-15)
 
 
