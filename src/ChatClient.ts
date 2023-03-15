@@ -18,8 +18,8 @@ export class ChatClient {
     private messageCallbacks: MessageCallback[] = [];
 
     constructor() {
-        this.ws = new WebsocketBuilder('ws://localhost:3030')
-          .withBackoff(new ConstantBackoff(1000))
+        this.ws = new WebsocketBuilder('ws://franklin-chat-service-ns-team-sites-xp-outbound-marketing-stage.ethos09-prod-va7.ethos.adobe.net')
+          .withBackoff(new ConstantBackoff(2000))
           .onOpen((i, ev) => { this.fireConnectionChange(true) })
           .onClose((i, ev) => { this.fireConnectionChange(false) })
           .onError((i, ev) => { console.log("error") })
