@@ -1,3 +1,11 @@
+# [1.3.0](https://github.com/kptdobe/franklin-chat-ui/compare/v1.2.0...v1.3.0) (2023-03-16)
+
+
+### Features
+
+* switch to cloud backend ([3b6191d](https://github.com/kptdobe/franklin-chat-ui/commit/3b6191dd130e4e55af95c18f29caa40aa6ca2b47))
+* switch to cloud backend and clean up ([f1fce1f](https://github.com/kptdobe/franklin-chat-ui/commit/f1fce1f3152f47732364227789df010abf87a3b5))
+
 # [1.2.0](https://github.com/kptdobe/franklin-chat-ui/compare/v1.1.0...v1.2.0) (2023-03-15)
 
 
