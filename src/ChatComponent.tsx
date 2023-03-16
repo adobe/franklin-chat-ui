@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useMemo} from 'react';
 import {
   ActionMenu,
   Button,
@@ -13,30 +13,38 @@ import user from './user.png';
 import Edit from '@spectrum-icons/workflow/Edit';
 import Delete from '@spectrum-icons/workflow/Delete';
 import CheckmarkCircle from '@spectrum-icons/workflow/CheckmarkCircle';
-import {useApplicationContext} from './Application';
+import { useMagicAuth } from './auth/useMagicAuth';
+
+import {ChatClient} from './ChatClient';
 
 function ChatComponent(){
-  const application = useApplicationContext();
-
   const [history, setHistory] = React.useState<any[]>([]);
 
   const [connected, setConnected] = React.useState(false);
-  const [name, setName] = React.useState('User 1');
   const [message, setMessage] = React.useState('');
 
+  const {
+    metadata,
+  } = useMagicAuth();
+
+  const name = `${metadata?.email || ''}`;
+  console.log('metadata', metadata);
+
+  const chatClient = useMemo(() => new ChatClient(), []);
+
   useEffect(() => {
-    application.chatClient.addConnectionCallback((connected: boolean) => {
+    chatClient.addConnectionCallback((connected: boolean) => {
       console.log('onConnection', connected);
       setConnected(connected);
     });
-    application.chatClient.addMessageCallback((history: any[]) => {
+    chatClient.addMessageCallback((history: any[]) => {
       console.log('onMessage', history);
       setHistory([...history]);
     });
-  }, [application]);
+  }, [chatClient]);
 
   const onSend = () => {
-    application.chatClient.send(name, message);
+    chatClient.send(`${name} (from Magic Link)`, message);
     setMessage('');
   }
 
@@ -45,8 +53,8 @@ function ChatComponent(){
   return(
     <Flex direction="column" gap="size-100" height="100%">
       <Flex direction="row" gap="size-100" margin='size-200'>
-        <TextField label="Name" labelPosition="side" onChange={setName} value={name} />
-        <Badge alignSelf="center" variant={connected ? 'positive' : 'negative'}><CheckmarkCircle /></Badge>
+        <h1>Welcome to Franklin chat {name}</h1>
+        <Badge alignSelf="center" variant={connected ? 'positive' : 'negative'}><CheckmarkCircle /><Text>{connected ? 'Chat is connected' : 'Chat is offline'}</Text></Badge>
       </Flex>
       <ListView
         items={history}
