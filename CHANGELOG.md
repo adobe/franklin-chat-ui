@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/kptdobe/franklin-chat-ui/compare/v1.3.0...v1.4.0) (2023-03-16)
+
+
+### Features
+
+* make endpoint configurable ([91efde0](https://github.com/kptdobe/franklin-chat-ui/commit/91efde04195142bee943c991e2b72385794adcaf))
+
 # [1.3.0](https://github.com/kptdobe/franklin-chat-ui/compare/v1.2.0...v1.3.0) (2023-03-16)
 
 
