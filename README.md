@@ -2,6 +2,15 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Config
+
+To override the port and the websocket server host, you need to create `.env.local` file and add: 
+
+```
+REACT_APP_SERVICE_ENDPOINT=ws://localhost:8081
+PORT=8080
+```
+
 ## Available Scripts
 
 In the project directory, you can run:
@@ -9,7 +18,7 @@ In the project directory, you can run:
 ### `npm start`
 
 Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Open [http://localhost:3001](http://localhost:3001) to view it in the browser.
 
 The page will reload if you make edits.\
 You will also see any lint errors in the console.

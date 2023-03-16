@@ -9,8 +9,8 @@ export type Message = {
 export type ConnectionCallback = (connected: boolean) => void;
 export type MessageCallback = (history: Message[]) => void;
 
-const SERVICE_ENDPOINT = 'ws://franklin-chat-service-ns-team-sites-xp-outbound-marketing-stage.ethos09-prod-va7.ethos.adobe.net';
-//const SERVICE_ENDPOINT = 'ws://localhost:3000';
+const SERVICE_ENDPOINT = process.env.REACT_APP_SERVICE_ENDPOINT || 'ws://localhost:8081';
+console.log(`Using service endpoint: ${SERVICE_ENDPOINT}`);
 
 export class ChatClient {
     private ws: Websocket;
