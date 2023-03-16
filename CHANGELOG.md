@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/kptdobe/franklin-chat-ui/compare/v1.4.0...v1.5.0) (2023-03-16)
+
+
+### Features
+
+* trigger CI ([b7b5858](https://github.com/kptdobe/franklin-chat-ui/commit/b7b585852a436dfe41d15b64cdd69cce3224a390))
+
 # [1.4.0](https://github.com/kptdobe/franklin-chat-ui/compare/v1.3.0...v1.4.0) (2023-03-16)
 
 
