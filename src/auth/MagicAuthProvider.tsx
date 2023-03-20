@@ -37,40 +37,41 @@ export default function MagicAuthProvider({
   magicOptions?: MagicSDKAdditionalConfiguration;
 }): JSX.Element {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-  const [magicDIDToken, setmagicDIDToken] = useState<string | null>(null);
+  const [token, setToken] = useState<string | null>(null);
   const [metadata, setMetadata] = useState<MagicUserMetadata | null>(null);
-  const [attemptingReauthentication, setAttemptingReauthentication] =
-    useState<boolean>(false);
+  const [attemptingReauthentication, setAttemptingReauthentication] = useState<boolean>(false);
 
-  const loginWithMagicLink = async (
+  const login = async (
     config: LoginWithMagicLinkConfiguration
   ) => {
-    let jwt;
+    let token;
     try {
       // This promise doesn't resolve until the email has been verified by the user
       // If successful, jwt will be a 15-minute active jwt that can be used to authorize requests
-      jwt = await getMagicInstance(
+      token = await getMagicInstance(
         magicApiKey,
         magicOptions
       ).auth.loginWithMagicLink(config);
     } catch (e) {
-      console.error('Error getting magic jwt', e);
+      console.error('Error getting magic link token', e);
       return null;
     }
+
+    setToken(token);
     setIsLoggedIn(true);
-    setmagicDIDToken(jwt);
+
     const metadata = await getMagicInstance(
       magicApiKey,
       magicOptions
     ).user.getMetadata();
     setMetadata(metadata);
-    return jwt;
+    return token;
   };
 
   const logout = async () => {
     await getMagicInstance(magicApiKey, magicOptions).user.logout();
     setIsLoggedIn(false);
-    setmagicDIDToken(null);
+    setToken(null);
     setMetadata(null);
   };
 
@@ -89,9 +90,9 @@ export default function MagicAuthProvider({
       }
 
       if (alreadyLoggedIn) {
-        const jwt = await magicInstance.user.getIdToken();
+        const token = await magicInstance.user.getIdToken();
         setIsLoggedIn(true);
-        setmagicDIDToken(jwt);
+        setToken(token);
         const metadata = await magicInstance.user.getMetadata();
         setMetadata(metadata);
       }
@@ -106,8 +107,8 @@ export default function MagicAuthProvider({
         value={{
           isLoggedIn,
           metadata,
-          magicDIDToken,
-          loginWithMagicLink,
+          token,
+          login,
           logout,
           attemptingReauthentication,
         }}
