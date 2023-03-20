@@ -1,8 +1,13 @@
 import React, {Fragment, PropsWithChildren, useContext, useMemo} from 'react';
 import {defaultTheme, Provider} from '@adobe/react-spectrum';
 
+import {ChatClient} from './ChatClient';
+
 function createApplication() {
-  return {};
+  const chatClient = new ChatClient();
+  return {
+    chatClient,
+  };
 }
 
 export type Application = ReturnType<typeof createApplication>;

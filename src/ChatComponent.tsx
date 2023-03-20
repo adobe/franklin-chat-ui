@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo} from 'react';
+import React, {useEffect} from 'react';
 import {
   ActionMenu,
   Button,
@@ -7,17 +7,17 @@ import {
   Item, ListView,
   TextArea,
   Text,
-  Image, TextField, Badge
+  Image, Badge
 } from '@adobe/react-spectrum';
 import user from './user.png';
 import Edit from '@spectrum-icons/workflow/Edit';
 import Delete from '@spectrum-icons/workflow/Delete';
 import CheckmarkCircle from '@spectrum-icons/workflow/CheckmarkCircle';
+import {useApplicationContext} from './Application';
 import { useMagicAuth } from './auth/useMagicAuth';
 
-import {ChatClient} from './ChatClient';
-
 function ChatComponent(){
+  const application = useApplicationContext();
   const [history, setHistory] = React.useState<any[]>([]);
 
   const [connected, setConnected] = React.useState(false);
@@ -30,21 +30,23 @@ function ChatComponent(){
   const name = `${metadata?.email || ''}`;
   console.log('metadata', metadata);
 
-  const chatClient = useMemo(() => new ChatClient(), []);
+  if (!application.chatClient.isConnected()) {
+    application.chatClient.connect();
+  }
 
   useEffect(() => {
-    chatClient.addConnectionCallback((connected: boolean) => {
+    application.chatClient.addConnectionCallback((connected: boolean) => {
       console.log('onConnection', connected);
       setConnected(connected);
     });
-    chatClient.addMessageCallback((history: any[]) => {
+    application.chatClient.addMessageCallback((history: any[]) => {
       console.log('onMessage', history);
       setHistory([...history]);
     });
-  }, [chatClient]);
+  }, [application.chatClient]);
 
   const onSend = () => {
-    chatClient.send(`${name} (from Magic Link)`, message);
+    application.chatClient.send(`${name} (from Magic Link)`, message);
     setMessage('');
   }
 
@@ -59,9 +61,10 @@ function ChatComponent(){
       <ListView
         items={history}
         flex={1}
+        aria-label="Chat history"
       >
         {(item) =>
-          <Item key={item.id}>
+          <Item key={item.id} aria-label={item.name}>
             <Image
               src={user}
             />
@@ -80,7 +83,7 @@ function ChatComponent(){
           </Item>
         }
       </ListView>
-      <TextArea width="100%" onChange={setMessage} value={message} />
+      <TextArea width="100%" onChange={setMessage} value={message} aria-label="Write message here"/>
       <ButtonGroup width="100%">
         <Button variant="primary" onPress={onSend}>Send</Button>
       </ButtonGroup>
