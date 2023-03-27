@@ -19,7 +19,7 @@ export default function Login() {
       const email = new FormData(e.target.closest('form')).get('email') as string;
       console.log('email', email);
       if (email) {
-        await login({ email, redirectURI: `${window.location.origin}/magic`, showUI: true }) as string;
+        await login({ email, showUI: true }) as string;
         setAuthing(false);
         navigate('/');
       }
