@@ -22,12 +22,15 @@ export class ChatClient {
     isConnected(): boolean {
         return this.ws !== undefined && this.ws.underlyingWebsocket?.readyState === this.ws.underlyingWebsocket?.OPEN;
     }
-    connect() {
+    connect({ user, token }: { user: string, token: string }) {
         console.log(`Connecting chat client to service endpoint: ${SERVICE_ENDPOINT}`);
         if (!this.ws) {
             this.ws = new WebsocketBuilder(SERVICE_ENDPOINT)
                 .withBackoff(new ConstantBackoff(2000))
-                .onOpen((i, ev) => { this.fireConnectionChange(true) })
+                .onOpen((i, ev) => { 
+                    this.admin({ cmd: 'join', user, token });
+                    this.fireConnectionChange(true);
+                })
                 .onClose((i, ev) => { this.fireConnectionChange(false) })
                 .onError((i, ev) => { console.log("error") })
                 .onMessage((i, ev) => { this.fireMessage(JSON.parse(ev.data) as Message) })
@@ -58,10 +61,15 @@ export class ChatClient {
         }
     }
 
+    admin(cmd: any) {
+        console.log("admin: ", cmd)
+        this.ws.send(JSON.stringify({
+            id: Math.random().toString(36).substring(7),
+            ...cmd
+        }));
+    }
+
     send(name: string, text: string) {
-        if (!this.ws) {
-            this.connect();
-        }
         this.ws.send(JSON.stringify({
             id: Math.random().toString(36).substring(7),
             name,

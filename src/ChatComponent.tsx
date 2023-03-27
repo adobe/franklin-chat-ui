@@ -25,13 +25,14 @@ function ChatComponent(){
 
   const {
     metadata,
+    token,
   } = useMagicAuth();
 
   const name = `${metadata?.email || ''}`;
   console.log('metadata', metadata);
 
   if (!application.chatClient.isConnected()) {
-    application.chatClient.connect();
+    application.chatClient.connect({ user: metadata?.email as string, token: token as string });
   }
 
   useEffect(() => {
