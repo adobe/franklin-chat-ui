@@ -13,6 +13,7 @@ export default function Login() {
   } = useMagicAuth();
   
   const handleSubmit = async (e: any) => {
+    e.preventDefault();
     setAuthing(true);
     if (e.target)  {
       console.log('handleSubmit', e);
@@ -28,7 +29,7 @@ export default function Login() {
   
   return (
     <div>
-      <Form>
+      <Form method="post" onSubmit={(e) => { handleSubmit(e as any); }}>
         <TextField type="email" name="email" label="Business email"/>
         <Button variant="primary" onPress={(e) => { handleSubmit(e as any); }} isDisabled={authing}>Login</Button>
       </Form>
