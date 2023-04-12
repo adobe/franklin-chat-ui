@@ -1,4 +1,5 @@
 import React, {useEffect} from 'react';
+import {KeyboardEvent} from '@react-types/shared';
 import {
   ActionMenu,
   Button,
@@ -40,6 +41,13 @@ function ChatComponent(){
     setMessage('');
   }
 
+  const onEnter = (e: KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      onSend();
+      e.preventDefault();
+    }
+  };
+
   console.log('history', history);
 
   return(
@@ -72,7 +80,7 @@ function ChatComponent(){
           </Item>
         }
       </ListView>
-      <TextArea width="100%" onChange={setMessage} value={message} />
+      <TextArea width="100%" onChange={setMessage} onKeyDown={onEnter} value={message} />
       <ButtonGroup width="100%">
         <Button variant="primary" onPress={onSend}>Send</Button>
       </ButtonGroup>
