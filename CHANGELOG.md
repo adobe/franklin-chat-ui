@@ -1,3 +1,10 @@
+# [1.6.0](https://github.com/kptdobe/franklin-chat-ui/compare/v1.5.0...v1.6.0) (2023-04-12)
+
+
+### Features
+
+* send messages on enter ([b97cbe5](https://github.com/kptdobe/franklin-chat-ui/commit/b97cbe5d10e9fad57842ebda4a59fa306efff9b9))
+
 # [1.5.0](https://github.com/kptdobe/franklin-chat-ui/compare/v1.4.0...v1.5.0) (2023-03-16)
 
 
