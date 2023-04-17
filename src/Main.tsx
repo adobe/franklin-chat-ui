@@ -1,10 +1,22 @@
 import './Main.css';
-import React from 'react'
 import ChatComponent from './ChatComponent';
+import Login from './Login';
+
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import AuthRoute from './auth/AuthRoute';
 
 export function Main() {
   return (
-    // TODO: for new users show a login form here
-    <ChatComponent/>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/login" element={<Login/>} />
+        <Route path="/" element={
+          <AuthRoute>
+            <ChatComponent />
+          </AuthRoute>
+          }
+        />
+      </Routes>
+    </BrowserRouter>
   );
 }

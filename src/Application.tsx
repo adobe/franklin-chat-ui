@@ -1,6 +1,7 @@
 import React, {Fragment, PropsWithChildren, useContext, useMemo} from 'react';
-import {ChatClient} from './ChatClient';
 import {defaultTheme, Provider} from '@adobe/react-spectrum';
+
+import {ChatClient} from './ChatClient';
 
 function createApplication() {
   const chatClient = new ChatClient();

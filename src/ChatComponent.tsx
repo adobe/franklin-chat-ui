@@ -1,5 +1,4 @@
 import React, {useEffect} from 'react';
-import {KeyboardEvent} from '@react-types/shared';
 import {
   ActionMenu,
   Button,
@@ -15,6 +14,7 @@ import Edit from '@spectrum-icons/workflow/Edit';
 import Delete from '@spectrum-icons/workflow/Delete';
 import CheckmarkCircle from '@spectrum-icons/workflow/CheckmarkCircle';
 import {useApplicationContext} from './Application';
+import { useMagicAuth } from './auth/useMagicAuth';
 
 function ChatComponent(){
   const application = useApplicationContext();
@@ -24,6 +24,18 @@ function ChatComponent(){
   const [connected, setConnected] = React.useState(false);
   const [name, setName] = React.useState('User 1');
   const [message, setMessage] = React.useState('');
+
+  const {
+    metadata,
+    token,
+  } = useMagicAuth();
+
+  const name = `${metadata?.email || ''}`;
+  console.log('metadata', metadata);
+
+  if (!application.chatClient.isConnected()) {
+    application.chatClient.connect({ user: metadata?.email as string, token: token as string });
+  }
 
   useEffect(() => {
     application.chatClient.addConnectionCallback((connected: boolean) => {
@@ -40,13 +52,6 @@ function ChatComponent(){
     application.chatClient.send(name, message);
     setMessage('');
   }
-
-  const onEnter = (e: KeyboardEvent) => {
-    if (e.key === 'Enter') {
-      onSend();
-      e.preventDefault();
-    }
-  };
 
   console.log('history', history);
 
@@ -80,7 +85,7 @@ function ChatComponent(){
           </Item>
         }
       </ListView>
-      <TextArea width="100%" onChange={setMessage} onKeyDown={onEnter} value={message} />
+      <TextArea width="100%" onChange={setMessage} value={message} />
       <ButtonGroup width="100%">
         <Button variant="primary" onPress={onSend}>Send</Button>
       </ButtonGroup>
