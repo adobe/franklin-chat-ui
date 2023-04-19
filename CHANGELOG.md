@@ -1,3 +1,13 @@
+# [1.7.0](https://github.com/kptdobe/franklin-chat-ui/compare/v1.6.0...v1.7.0) (2023-04-19)
+
+
+### Features
+
+* 1st pilot milestone ([5012e67](https://github.com/kptdobe/franklin-chat-ui/commit/5012e674d8ee83334b8ce44a28d06ceea0a6bd05))
+* handle submit ([9eb985a](https://github.com/kptdobe/franklin-chat-ui/commit/9eb985a4075d9648135ee1cfc4958bf64b22b0e0))
+* magic auth ([a4aec63](https://github.com/kptdobe/franklin-chat-ui/commit/a4aec63e7d23e1167c5f0356a3dcc9756228a3dd))
+* no redirect ([abff55e](https://github.com/kptdobe/franklin-chat-ui/commit/abff55e2dfe64c9a5039b01738c84ff2d9fcafcf))
+
 # [1.6.0](https://github.com/kptdobe/franklin-chat-ui/compare/v1.5.0...v1.6.0) (2023-04-12)
 
 
