@@ -1,5 +1,4 @@
-import React, {Fragment, PropsWithChildren, useContext, useEffect, useMemo} from 'react';
-import {defaultTheme, ProgressCircle, Provider} from '@adobe/react-spectrum';
+import React, {PropsWithChildren, useContext, useEffect} from 'react';
 
 import {ChatClient} from './ChatClient';
 import {useAuthContext} from './AuthProvider';
@@ -25,7 +24,7 @@ export const ApplicationProvider: React.FC<PropsWithChildren> = ({children}) => 
     getToken().then((token) => {
       setApplication(createApplication(token));
     });
-  }, []);
+  }, [getToken]);
 
   if (application) {
     return (

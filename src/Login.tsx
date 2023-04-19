@@ -1,5 +1,5 @@
 import {useMemo, useState} from 'react';
-import {Form, TextField, Button, Checkbox, Flex, ButtonGroup} from '@adobe/react-spectrum';
+import {Form, TextField, Button, Flex, ButtonGroup} from '@adobe/react-spectrum';
 
 import {useAuthContext} from './AuthProvider';
 
@@ -9,7 +9,7 @@ export default function Login() {
   const [email, setEmail] = useState('');
 
   let isValid = useMemo(
-    () => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email),
+    () => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(email),
     [email]
   );
 

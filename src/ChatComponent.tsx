@@ -39,7 +39,7 @@ function ChatComponent(){
   const fetchMoreData = useCallback(async () => {
     console.log('fetchMoreData');
     setHasMore(await application.chatClient.requestHistory());
-  }, []);
+  }, [application.chatClient]);
 
   const onSend = (message: string) => {
     console.log(`sending message ${message}...`);

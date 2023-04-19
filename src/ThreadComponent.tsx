@@ -15,14 +15,14 @@ export function ThreadComponent({ ts, close }: {ts: string, close: () => void}) 
     const replies = await application.chatClient.getReplies(ts);
     setReplies(replies);
     console.log('replies', replies);
-  }, []);
+  }, [application.chatClient, ts]);
 
   useEffect(() => {
     application.chatClient.addMessageCallback((history: any[]) => {
       fetchMoreData().catch(console.error);
     });
     fetchMoreData().catch(console.error);
-  }, []);
+  }, [application.chatClient, fetchMoreData]);
 
   const onSend = (message: string) => {
     console.log(`sending reply to ${ts}: ${message}`);

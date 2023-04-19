@@ -34,7 +34,7 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({children}) => {
         return magic.user.getIdToken();
       }
     }
-  }, []);
+  }, [magic.auth, magic.user, state.isLoggedIn]);
 
   useEffect(() => {
     setState({isLoggedIn: false, loading: true})
@@ -42,7 +42,7 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({children}) => {
       console.log(`isLoggedIn: ${isLoggedIn}`);
       setState({isLoggedIn, loading: false});
     });
-  }, []);
+  }, [magic.user]);
 
   return (
     <AuthContext.Provider value={authClient}>
