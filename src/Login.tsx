@@ -1,38 +1,32 @@
-import { useState } from "react";
-import { useNavigate } from 'react-router-dom';
-import { Form, TextField, Button} from '@adobe/react-spectrum';
+import {useMemo, useState} from 'react';
+import {Form, TextField, Button, Checkbox, Flex, ButtonGroup} from '@adobe/react-spectrum';
 
-import { useMagicAuth } from './auth/useMagicAuth';
+import {useAuthContext} from './AuthProvider';
 
 export default function Login() {
-  const navigate = useNavigate();
-  const [authing, setAuthing] = useState(false);
+  const {login} = useAuthContext();
 
-  const {
-    login,
-  } = useMagicAuth();
-  
-  const handleSubmit = async (e: any) => {
-    e.preventDefault();
-    setAuthing(true);
-    if (e.target)  {
-      console.log('handleSubmit', e);
-      const email = new FormData(e.target.closest('form')).get('email') as string;
-      console.log('email', email);
-      if (email) {
-        await login({ email, showUI: true }) as string;
-        setAuthing(false);
-        navigate('/');
-      }
-    }
+  const [email, setEmail] = useState('');
+
+  let isValid = useMemo(
+    () => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email),
+    [email]
+  );
+
+  const onLogin = async () => {
+    console.log(`onLogin: ${email}`);
+    await login(email);
   }
-  
+
   return (
-    <div>
-      <Form method="post" onSubmit={(e) => { handleSubmit(e as any); }}>
-        <TextField type="email" name="email" label="Business email"/>
-        <Button variant="primary" onPress={(e) => { handleSubmit(e as any); }} isDisabled={authing}>Login</Button>
+    <Flex justifyContent='center' alignItems='center' height='100%'>
+      <Form width='300px'>
+        <h2>Log into Franklin Chat</h2>
+        <TextField label="Your Business E-Mail" value={email} onChange={setEmail} validationState={isValid ? 'valid' : 'invalid'} />
+        <ButtonGroup marginTop={25}>
+          <Button variant="primary" onPress={onLogin} isDisabled={!email.trim().length}>Login</Button>
+        </ButtonGroup>
       </Form>
-    </div>
+    </Flex>
   );
 };

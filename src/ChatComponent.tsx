@@ -1,45 +1,33 @@
-import React, {useEffect} from 'react';
-import {
-  ActionMenu,
-  Button,
-  ButtonGroup,
-  Flex,
-  Item, ListView,
-  TextArea,
-  Text,
-  Image, TextField, Badge
-} from '@adobe/react-spectrum';
-import user from './user.png';
-import Edit from '@spectrum-icons/workflow/Edit';
-import Delete from '@spectrum-icons/workflow/Delete';
+import React, {useCallback, useEffect} from 'react';
+import {ActionButton, Badge, DialogTrigger, Flex, Image, Text, View} from '@adobe/react-spectrum';
+import DefaultUserIcon from './user.png';
+import Chat from '@spectrum-icons/workflow/Reply';
 import CheckmarkCircle from '@spectrum-icons/workflow/CheckmarkCircle';
-import {useApplicationContext} from './Application';
-import { useMagicAuth } from './auth/useMagicAuth';
+import {useApplicationContext} from './ApplicationProvider';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import {useAuthContext} from './AuthProvider';
+import {ThreadComponent} from './ThreadComponent';
+import {MessageEditorComponent} from './MessageEditorComponent';
+import {convertSlackTimestampToUTC, convertSlackToHtml} from './Utils';
 
 function ChatComponent(){
   const application = useApplicationContext();
+  const {logout} = useAuthContext();
 
   const [history, setHistory] = React.useState<any[]>([]);
+  const [hasMore, setHasMore] = React.useState(true);
+  const [channelName, setChannelName] = React.useState('');
 
   const [connected, setConnected] = React.useState(false);
-  const [name, setName] = React.useState('User 1');
-  const [message, setMessage] = React.useState('');
 
-  const {
-    metadata,
-    token,
-  } = useMagicAuth();
-
-  const name = `${metadata?.email || ''}`;
-  console.log('metadata', metadata);
-
-  if (!application.chatClient.isConnected()) {
-    application.chatClient.connect({ user: metadata?.email as string, token: token as string });
-  }
+  const [highlightedItem, setHighlightedItem] = React.useState(undefined);
 
   useEffect(() => {
     application.chatClient.addConnectionCallback((connected: boolean) => {
       console.log('onConnection', connected);
+      if (connected) {
+        setChannelName(application.chatClient.getChannelName() as string);
+      }
       setConnected(connected);
     });
     application.chatClient.addMessageCallback((history: any[]) => {
@@ -48,47 +36,75 @@ function ChatComponent(){
     });
   }, [application]);
 
-  const onSend = () => {
-    application.chatClient.send(name, message);
-    setMessage('');
+  const fetchMoreData = useCallback(async () => {
+    console.log('fetchMoreData');
+    setHasMore(await application.chatClient.requestHistory());
+  }, []);
+
+  const onSend = (message: string) => {
+    console.log(`sending message ${message}...`);
+    application.chatClient.send(message);
   }
 
-  console.log('history', history);
-
   return(
-    <Flex direction="column" gap="size-100" height="100%">
-      <Flex direction="row" gap="size-100" margin='size-200'>
-        <TextField label="Name" labelPosition="side" onChange={setName} value={name} />
+    <Flex direction="column" gap="size-100" height='100%' justifyContent='center'>
+      <div style={{display: 'flex', flexDirection: 'row', gap:10, alignItems: 'center', margin: 0, padding: 10, background: '#eee', borderRadius: 5}}>
+        <h1 style={{margin: 0, color: '#aaa'}}>{channelName}</h1>
+        <View flexGrow={1}/>
         <Badge alignSelf="center" variant={connected ? 'positive' : 'negative'}><CheckmarkCircle /></Badge>
-      </Flex>
-      <ListView
-        items={history}
-        flex={1}
+        <ActionButton onPress={logout}>Logout</ActionButton>
+      </div>
+      <div
+        id="scrollableDiv"
+        style={{
+          overflow: 'auto',
+          display: 'flex',
+          flexGrow: 1,
+          flexDirection: 'column-reverse',
+          width: '100%',
+        }}
       >
-        {(item) =>
-          <Item key={item.id}>
-            <Image
-              src={user}
-            />
-            <Text>{item.name}</Text>
-            <Text slot="description">{item.text}</Text>
-            <ActionMenu>
-              <Item key="edit" textValue="Edit">
-                <Edit />
-                <Text>Edit</Text>
-              </Item>
-              <Item key="delete" textValue="Delete">
-                <Delete />
-                <Text>Delete</Text>
-              </Item>
-            </ActionMenu>
-          </Item>
-        }
-      </ListView>
-      <TextArea width="100%" onChange={setMessage} value={message} />
-      <ButtonGroup width="100%">
-        <Button variant="primary" onPress={onSend}>Send</Button>
-      </ButtonGroup>
+        <InfiniteScroll
+          dataLength={history.length}
+          next={fetchMoreData}
+          style={{ display: 'flex', flexDirection: 'column-reverse' }}
+          inverse={true}
+          hasMore={hasMore}
+          loader={<div style={{margin:'auto', padding: 'auto'}}>Loading...</div>}
+          scrollableTarget="scrollableDiv"
+        >
+          {history.map((item, index) => (
+            <div key={item.ts} style={{marginTop: 5, marginBottom: 5}} onMouseOver={() => setHighlightedItem(item.ts)}>
+              <Flex direction="row" flex={1} flexGrow={1}>
+                <Image src={item.user?.icon ?? DefaultUserIcon} width={42} height={42} margin={6}/>
+                <Flex direction="column" flex={1} position='relative'>
+                  <Flex direction="row">
+                    <Flex direction="column" flexBasis='auto'>
+                      <h4 style={{margin: 0}}>{item.user.name}</h4>
+                      <div style={{fontSize: 10}}>{convertSlackTimestampToUTC(item.ts)}</div>
+                    </Flex>
+                    <DialogTrigger type="modal" isDismissable>
+                      <ActionButton marginStart='size-100' isQuiet isHidden={highlightedItem !== item.ts}><Chat/></ActionButton>
+                      {(close) => <ThreadComponent ts={item.ts} close={close}/>}
+                    </DialogTrigger>
+                  </Flex>
+                  <p style={{fontSize: 15, marginTop: 5, marginBottom: 5, lineHeight: 1.2}} dangerouslySetInnerHTML={{__html: convertSlackToHtml(item.text)}}/>
+                  { item.replyCount &&
+                    <div>
+                      <DialogTrigger type="modal" isDismissable>
+                        <ActionButton isQuiet><Text><b>{item.replyCount}</b>&nbsp;{item.replyCount === 1 ? 'reply' : 'replies'}</Text></ActionButton>
+                        {(close) => <ThreadComponent ts={item.ts} close={close}/>}
+                      </DialogTrigger>
+                    </div>
+                  }
+                </Flex>
+              </Flex>
+            </div>
+          ))}
+        </InfiniteScroll>
+      </div>
+
+      <MessageEditorComponent onSend={onSend}/>
     </Flex>
   )
 }
