@@ -49,7 +49,7 @@ function ChatComponent(){
   return(
     <Flex direction="column" gap="size-100" height='100%' justifyContent='center'>
       <div style={{display: 'flex', flexDirection: 'row', gap:10, alignItems: 'center', margin: 0, padding: 10, background: '#eee', borderRadius: 5}}>
-        <h1 style={{margin: 0, color: '#aaa'}}>{channelName}</h1>
+        <h2 style={{margin: 0, color: '#aaa'}}>You are now chatting in <b style={{color:'#666', display: 'inline'}}>{channelName}</b></h2>
         <View flexGrow={1}/>
         <Badge alignSelf="center" variant={connected ? 'positive' : 'negative'}><CheckmarkCircle /></Badge>
         <ActionButton onPress={logout}>Logout</ActionButton>
