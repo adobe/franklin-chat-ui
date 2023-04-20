@@ -1,3 +1,10 @@
+# [1.11.0](https://github.com/kptdobe/franklin-chat-ui/compare/v1.10.0...v1.11.0) (2023-04-20)
+
+
+### Features
+
+* bring back dark theme support and fix login form ([c92c2d6](https://github.com/kptdobe/franklin-chat-ui/commit/c92c2d67b9d449a9ba7e9a32bc39bbdd1f893afd))
+
 # [1.10.0](https://github.com/kptdobe/franklin-chat-ui/compare/v1.9.0...v1.10.0) (2023-04-20)
 
 
