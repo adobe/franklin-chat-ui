@@ -1,3 +1,10 @@
+# [1.8.0](https://github.com/kptdobe/franklin-chat-ui/compare/v1.7.0...v1.8.0) (2023-04-20)
+
+
+### Features
+
+* add debug ([c484650](https://github.com/kptdobe/franklin-chat-ui/commit/c4846509a1034bea52319fa45f658032c556ac1d))
+
 # [1.7.0](https://github.com/kptdobe/franklin-chat-ui/compare/v1.6.0...v1.7.0) (2023-04-19)
 
 
