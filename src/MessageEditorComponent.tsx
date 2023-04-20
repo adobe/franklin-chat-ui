@@ -18,8 +18,8 @@ export function MessageEditorComponent({onSend}: {onSend: (message: string) => v
   };
 
   return (
-    <Flex direction='column'>
-      <TextArea width="95%" onChange={setMessage} onKeyDown={onEnter} value={message} description="Shift+Enter to send"/>
+    <Flex direction='column' margin={10}>
+      <TextArea width="100%" onChange={setMessage} onKeyDown={onEnter} value={message} description="Shift+Enter to send"/>
       <ButtonGroup width="100%">
         <Button variant="primary" onPress={onDone} isDisabled={!message.length}>Send</Button>
       </ButtonGroup>

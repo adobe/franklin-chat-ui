@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect} from 'react';
-import {ActionButton, Badge, DialogTrigger, Flex, Image, Text, View} from '@adobe/react-spectrum';
+import {ActionButton, Badge, DialogTrigger, Divider, Flex, Text, useProvider, View} from '@adobe/react-spectrum';
 import DefaultUserIcon from './user.png';
 import Chat from '@spectrum-icons/workflow/Reply';
 import CheckmarkCircle from '@spectrum-icons/workflow/CheckmarkCircle';
@@ -12,6 +12,7 @@ import {convertSlackTimestampToUTC, convertSlackToHtml} from './Utils';
 
 function ChatComponent(){
   const application = useApplicationContext();
+  const {colorScheme} = useProvider();
   const {logout} = useAuthContext();
 
   const [history, setHistory] = React.useState<any[]>([]);
@@ -48,12 +49,13 @@ function ChatComponent(){
 
   return(
     <Flex direction="column" gap="size-100" height='100%' justifyContent='center'>
-      <div style={{display: 'flex', flexDirection: 'row', gap:10, alignItems: 'center', margin: 0, padding: 10, background: '#eee', borderRadius: 5}}>
-        <h2 style={{margin: 0, color: '#aaa'}}>You are now chatting in <b style={{color:'#666', display: 'inline'}}>{channelName}</b></h2>
+      <Flex direction={'row'} alignItems={'center'} justifyContent={'space-between'} margin={10} gap={10}>
+        <div>You are chatting in</div><b>{channelName}</b>
         <View flexGrow={1}/>
         <Badge alignSelf="center" variant={connected ? 'positive' : 'negative'}><CheckmarkCircle /></Badge>
         <ActionButton onPress={logout}>Logout</ActionButton>
-      </div>
+      </Flex>
+      <Divider orientation="horizontal" size="S" />
       <div
         id="scrollableDiv"
         style={{
@@ -62,12 +64,14 @@ function ChatComponent(){
           flexGrow: 1,
           flexDirection: 'column-reverse',
           width: '100%',
+          scrollbarColor: colorScheme,
+          scrollbarWidth: 'thin'
         }}
       >
         <InfiniteScroll
           dataLength={history.length}
           next={fetchMoreData}
-          style={{ display: 'flex', flexDirection: 'column-reverse' }}
+          style={{ display: 'flex', flexDirection: 'column-reverse', marginLeft: 5, marginRight: 5 }}
           inverse={true}
           hasMore={hasMore}
           loader={<div style={{margin:'auto', padding: 'auto'}}>Loading...</div>}
@@ -76,7 +80,7 @@ function ChatComponent(){
           {history.map((item, index) => (
             <div key={item.ts} style={{marginTop: 5, marginBottom: 5}} onMouseOver={() => setHighlightedItem(item.ts)}>
               <Flex direction="row" flex={1} flexGrow={1}>
-                <Image src={item.user?.icon ?? DefaultUserIcon} width={42} height={42} margin={6}/>
+                <img src={item.user?.icon ?? DefaultUserIcon} width={42} height={42} style={{borderRadius: '50%', border: '1px', margin: 5}} alt='avatar'/>
                 <Flex direction="column" flex={1} position='relative'>
                   <Flex direction="row">
                     <Flex direction="column" flexBasis='auto'>
@@ -103,7 +107,7 @@ function ChatComponent(){
           ))}
         </InfiniteScroll>
       </div>
-
+      <Divider orientation="horizontal" size="S" />
       <MessageEditorComponent onSend={onSend}/>
     </Flex>
   )

@@ -15,7 +15,6 @@ body {
 #root{
   margin: 0;
   height: 100%;
-  padding: 10px;
   width: 100%;
   box-sizing: border-box;
 }

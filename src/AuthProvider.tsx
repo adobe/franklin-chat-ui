@@ -52,6 +52,7 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({children}) => {
 
   useEffect(() => {
     magic.user.isLoggedIn().then((isLoggedIn) => {
+      console.log(`Result of isLoggedIn: ${isLoggedIn}`);
       if (isLoggedIn) {
         console.log(`Logged in. Refreshing token...`);
         magic.user.getIdToken().then((token) => {

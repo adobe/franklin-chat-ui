@@ -20,11 +20,11 @@ export default function Login() {
 
   return (
     <Flex justifyContent='center' alignItems='center' height='100%'>
-      <Form width='300px'>
+      <Form width='300px' onSubmit={onLogin}>
         <h2>Log into Franklin Chat</h2>
         <TextField label="Your Business E-Mail" value={email} onChange={setEmail} validationState={isValid ? 'valid' : 'invalid'} />
         <ButtonGroup marginTop={25}>
-          <Button variant="primary" onPress={onLogin} isDisabled={!email.trim().length}>Login</Button>
+          <Button variant="primary" type='submit' isDisabled={!email.trim().length}>Login</Button>
         </ButtonGroup>
       </Form>
     </Flex>
