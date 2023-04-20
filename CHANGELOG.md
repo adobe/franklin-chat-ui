@@ -1,3 +1,10 @@
+# [1.10.0](https://github.com/kptdobe/franklin-chat-ui/compare/v1.9.0...v1.10.0) (2023-04-20)
+
+
+### Features
+
+* additional formatting for channel name ([5e5e0a5](https://github.com/kptdobe/franklin-chat-ui/commit/5e5e0a5b1395242931ff7bfce9395618121e8aa5))
+
 # [1.9.0](https://github.com/kptdobe/franklin-chat-ui/compare/v1.8.0...v1.9.0) (2023-04-20)
 
 
