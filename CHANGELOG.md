@@ -1,3 +1,10 @@
+# [1.9.0](https://github.com/kptdobe/franklin-chat-ui/compare/v1.8.0...v1.9.0) (2023-04-20)
+
+
+### Features
+
+* make initial auth faster ([37d1e9d](https://github.com/kptdobe/franklin-chat-ui/commit/37d1e9d2ebd6fa2902a484d9e0ecd724242048a6))
+
 # [1.8.0](https://github.com/kptdobe/franklin-chat-ui/compare/v1.7.0...v1.8.0) (2023-04-20)
 
 
