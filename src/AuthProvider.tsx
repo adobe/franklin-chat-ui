@@ -4,6 +4,7 @@ import Login from './Login';
 import {BusySpinner} from './BusySpinner';
 
 const REACT_MAGIC_LINK_API_KEY = process.env.REACT_APP_MAGIC_LINK_API_KEY as string;
+console.log(`Using Magic Link key: ${REACT_MAGIC_LINK_API_KEY}`);
 
 type AuthClient = {
   login: (email: string) => Promise<void>
