@@ -1,14 +1,13 @@
-import React, {PropsWithChildren, useContext, useEffect} from 'react';
+import React, {PropsWithChildren, useContext} from 'react';
 
 import {ChatClient} from './ChatClient';
 import {useAuthContext} from './AuthProvider';
-import {BusySpinner} from './BusySpinner';
 
 function createApplication(token: string) {
   console.log(`createApplication: ${token}`);
   const chatClient = new ChatClient(token);
   return {
-    chatClient,
+    chatClient
   };
 }
 
@@ -18,22 +17,12 @@ export const ApplicationContext = React.createContext<Application|undefined>(und
 
 export const ApplicationProvider: React.FC<PropsWithChildren> = ({children}) => {
   const {getToken} = useAuthContext();
-  const [application, setApplication] = React.useState<Application|undefined>(undefined);
-
-  useEffect(() => {
-    getToken().then((token) => {
-      setApplication(createApplication(token));
-    });
-  }, [getToken]);
-
-  if (application) {
-    return (
-      <ApplicationContext.Provider value={application}>
-        {children}
-      </ApplicationContext.Provider>
-    );
-  }
-  return <BusySpinner text='Authenticating...'/>;
+  const application = createApplication(getToken() as string);
+  return (
+    <ApplicationContext.Provider value={application}>
+      {children}
+    </ApplicationContext.Provider>
+  );
 };
 
 export const useApplicationContext = () => {

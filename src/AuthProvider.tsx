@@ -9,45 +9,65 @@ console.log(`Using Magic Link key: ${REACT_MAGIC_LINK_API_KEY}`);
 type AuthClient = {
   login: (email: string) => Promise<void>
   logout: () => Promise<void>
-  getToken: () => Promise<string>
+  getToken: () => string|null
 }
 
 export const AuthContext = React.createContext<AuthClient|undefined>(undefined);
 
 export const AuthProvider: React.FC<PropsWithChildren> = ({children}) => {
-  const [state, setState] = React.useState<{isLoggedIn: boolean, loading: boolean}>({isLoggedIn: false, loading: true});
+  const [state, setState] = React.useState<{token: string|null, loading: boolean}>({token: null, loading: true});
   const magic = useMemo(() => new Magic(REACT_MAGIC_LINK_API_KEY), []);
 
   const authClient = useMemo(() => {
     return {
       login: async (email: string) => {
-        setState({isLoggedIn: state.isLoggedIn, loading: true});
-        const res = await magic.auth.loginWithMagicLink({email});
-        console.log(`loginWithMagicLink: ${JSON.stringify(res)}`);
-        setState({isLoggedIn: true, loading: false});
+        try {
+          console.log(`Trying to login with email: ${email}`);
+          setState({token: state.token, loading: true});
+          const token = await magic.auth.loginWithMagicLink({email});
+          setState({token, loading: false});
+          console.log(`Logged in with email: ${email}`, JSON.stringify(token));
+        } catch (e) {
+          console.error(`Failed to login with email: ${email}`, e);
+          setState({token: state.token, loading: false});
+        }
       },
       logout: async () => {
-        setState({isLoggedIn: state.isLoggedIn, loading: true})
-        await magic.user.logout();
-        setState({isLoggedIn: false, loading: false})
+        try {
+          console.log(`Trying to logout`);
+          setState({token: state.token, loading: true})
+          await magic.user.logout();
+          setState({token: null, loading: false})
+          console.log(`Logged out`);
+        } catch (e) {
+          console.error(`Failed to logout`, e);
+          setState({token: state.token, loading: false});
+        }
       },
       getToken: () => {
-        return magic.user.getIdToken();
+        return state.token;
       }
     }
-  }, [magic.auth, magic.user, state.isLoggedIn]);
+  }, [magic.auth, magic.user, state.token]);
 
   useEffect(() => {
-    setState({isLoggedIn: false, loading: true})
     magic.user.isLoggedIn().then((isLoggedIn) => {
-      console.log(`isLoggedIn: ${isLoggedIn}`);
-      setState({isLoggedIn, loading: false});
-    });
+      if (isLoggedIn) {
+        console.log(`Logged in. Refreshing token...`);
+        magic.user.getIdToken().then((token) => {
+          console.log(`Fresh token: ${token}`);
+          setState({token, loading: false});
+        });
+        return;
+      }
+      console.log(`Not logged in`);
+      setState({token: null, loading: false});
+      });
   }, [magic.user]);
 
   return (
     <AuthContext.Provider value={authClient}>
-      {state.loading ? <BusySpinner text='Authenticating...'/> : (state.isLoggedIn ? <>{children}</> : <Login/>)}
+      {state.loading ? <BusySpinner text='Authenticating...'/> : (state.token ? <>{children}</> : <Login/>)}
     </AuthContext.Provider>
   );
 };
