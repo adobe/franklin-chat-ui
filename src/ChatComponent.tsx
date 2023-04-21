@@ -1,7 +1,18 @@
 import React, {useCallback, useEffect} from 'react';
-import {ActionButton, Badge, DialogTrigger, Divider, Flex, Text, useProvider, View} from '@adobe/react-spectrum';
+import {
+  ActionButton,
+  Badge,
+  Button,
+  DialogTrigger,
+  Divider,
+  Flex,
+  Text,
+  useProvider,
+  View
+} from '@adobe/react-spectrum';
 import DefaultUserIcon from './user.png';
 import Chat from '@spectrum-icons/workflow/Reply';
+import Logout from '@spectrum-icons/workflow/LogOut';
 import CheckmarkCircle from '@spectrum-icons/workflow/CheckmarkCircle';
 import {useApplicationContext} from './ApplicationProvider';
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -9,6 +20,7 @@ import {useAuthContext} from './AuthProvider';
 import {ThreadComponent} from './ThreadComponent';
 import {MessageEditorComponent} from './MessageEditorComponent';
 import {convertSlackTimestampToUTC, convertSlackToHtml} from './Utils';
+import {ChatTitle} from './ChatTitle';
 
 function ChatComponent(){
   const application = useApplicationContext();
@@ -17,7 +29,7 @@ function ChatComponent(){
 
   const [history, setHistory] = React.useState<any[]>([]);
   const [hasMore, setHasMore] = React.useState(true);
-  const [channelName, setChannelName] = React.useState('');
+  const [title, setTitle] = React.useState('Connecting...');
 
   const [connected, setConnected] = React.useState(false);
 
@@ -27,7 +39,8 @@ function ChatComponent(){
     application.chatClient.addConnectionCallback((connected: boolean) => {
       console.log('onConnection', connected);
       if (connected) {
-        setChannelName(application.chatClient.getChannelName() as string);
+        const channelName = application.chatClient.getChannelName() as string;
+        setTitle(`You are chatting in ${channelName.toUpperCase()}`);
       }
       setConnected(connected);
     });
@@ -50,10 +63,10 @@ function ChatComponent(){
   return(
     <Flex direction="column" gap="size-100" height='100%' justifyContent='center'>
       <Flex direction={'row'} alignItems={'center'} justifyContent={'space-between'} margin={10} gap={10}>
-        <div>You are chatting in</div><b>{channelName}</b>
-        <View flexGrow={1}/>
         <Badge alignSelf="center" variant={connected ? 'positive' : 'negative'}><CheckmarkCircle /></Badge>
-        <ActionButton onPress={logout}>Logout</ActionButton>
+        <ChatTitle title={title} colorScheme={colorScheme}/>
+        <View flexGrow={1}/>
+        <Button onPress={logout} variant='primary' isDisabled={!connected}>Logout&nbsp;<Logout/></Button>
       </Flex>
       <Divider orientation="horizontal" size="S" />
       <div

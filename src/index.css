@@ -19,3 +19,17 @@ body {
   box-sizing: border-box;
 }
 
+.slide-from-left {
+  transition: transform 1s ease-out, opacity 1s ease-out;
+}
+
+@keyframes fromTop {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
