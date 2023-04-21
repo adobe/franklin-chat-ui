@@ -1,17 +1,20 @@
-# Getting Started with Create React App
+# Franklin Chat UI
+The Franklin Chat UI is a React app that connects to the Franklin Chat Service and allows users to chat with the Franklin team.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Using the app
+- Open the app in a browser by going to https://main--franklin-chat-ui--kptdobe.hlx.page/index.html
+- Enter your business email address and click on the "Login" button
+- Open the email you received and click on the link
+- Go back to the app and start chatting
 
-## Config
+## Development
 
-To override the port and the websocket server host, you need to create `.env.local` file and add: 
-
+To build and deploy the app, you need to create a `.env` file in the root directory with the following properties:
 ```
 REACT_APP_SERVICE_ENDPOINT=ws://localhost:8081
+REACT_APP_MAGIC_LINK_API_KEY=...
 PORT=8080
 ```
-
-## Available Scripts
 
 In the project directory, you can run:
 
@@ -37,19 +40,3 @@ The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).

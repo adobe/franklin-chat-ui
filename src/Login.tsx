@@ -1,5 +1,5 @@
 import {useMemo, useState} from 'react';
-import {Form, TextField, Button, Flex, ButtonGroup} from '@adobe/react-spectrum';
+import {Form, TextField, Button, Flex, ButtonGroup, Heading, Well} from '@adobe/react-spectrum';
 
 import {useAuthContext} from './AuthProvider';
 
@@ -20,9 +20,16 @@ export default function Login() {
 
   return (
     <Flex justifyContent='center' alignItems='center' height='100%'>
-      <Form width='300px' onSubmit={onLogin}>
-        <h2>Log into Franklin Chat</h2>
-        <TextField label="Your Business E-Mail" value={email} onChange={setEmail} validationState={isValid ? 'valid' : 'invalid'} />
+      <Form width='500px' onSubmit={onLogin} validationState={isValid ? 'valid' : 'invalid'} >
+        <Heading level={2}>Log into Franklin Chat</Heading>
+        <Well marginBottom={10}>
+          <ol style={{margin: 10, padding: 0}}>
+            <li>Enter your business email address and click on the "Login" button</li>
+            <li>Open the email you received and click on the link</li>
+            <li>Go back to the app and start chatting</li>
+          </ol>
+        </Well>
+        <TextField label="Your Business E-Mail" value={email} onChange={setEmail} isRequired width='300px'/>
         <ButtonGroup marginTop={25}>
           <Button variant="primary" type='submit' isDisabled={!email.trim().length}>Login</Button>
         </ButtonGroup>
