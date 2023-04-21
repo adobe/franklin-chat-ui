@@ -1,3 +1,10 @@
+# [1.15.0](https://github.com/kptdobe/franklin-chat-ui/compare/v1.14.0...v1.15.0) (2023-04-21)
+
+
+### Features
+
+* advanced formatting of messages and deep links ([0979ae2](https://github.com/kptdobe/franklin-chat-ui/commit/0979ae2429c80e1a8554824a5c587efea0d0893c))
+
 # [1.14.0](https://github.com/kptdobe/franklin-chat-ui/compare/v1.13.0...v1.14.0) (2023-04-21)
 
 
