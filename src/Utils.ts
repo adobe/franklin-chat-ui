@@ -68,6 +68,7 @@ export const REVERSED_EMOJIS: { [key: string]: string } = Object.entries(EMOJIS)
 
 export function convertSlackToHtml(slackText: string) {
   slackText = convertAllEmojiToUnicode(slackText);
+  slackText = convertSlackLinksToHTML(slackText);
   slackText = slackText.replace(/\*(.*?)\*/g, '<strong>$1</strong>');
   slackText = slackText.replace(/_(.*?)_/g, '<em>$1</em>');
   slackText = slackText.replace(/~(.*?)~/g, '<del>$1</del>');
@@ -80,6 +81,16 @@ export function convertSlackTimestampToUTC(slackTimestamp: string) {
   const milliseconds = parseInt(slackTimestamp.split('.')[1]);
   const date = new Date(seconds * 1000 + milliseconds);
   return date.toUTCString();
+}
+
+function convertSlackLinksToHTML(text: string): string {
+  const regex = /<([^|>]+)(?:\|([^>]+))?>/g;
+  return text.replace(regex, (_, url, linkText) => {
+    if (!linkText) {
+      linkText = url; // Use the URL as the link text if none is provided
+    }
+    return `<a href="${url}">${linkText}</a>`;
+  });
 }
 
 export function convertAllEmojiToUnicode(slackText: string) {
