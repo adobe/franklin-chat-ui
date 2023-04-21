@@ -1,3 +1,10 @@
+# [1.17.0](https://github.com/kptdobe/franklin-chat-ui/compare/v1.16.0...v1.17.0) (2023-04-21)
+
+
+### Features
+
+* change favicon ([6715ce4](https://github.com/kptdobe/franklin-chat-ui/commit/6715ce4db744c57ab8e3d448c94756d78a1fdf22))
+
 # [1.16.0](https://github.com/kptdobe/franklin-chat-ui/compare/v1.15.0...v1.16.0) (2023-04-21)
 
 
