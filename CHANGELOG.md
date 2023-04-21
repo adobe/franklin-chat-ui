@@ -1,3 +1,10 @@
+# [1.13.0](https://github.com/kptdobe/franklin-chat-ui/compare/v1.12.0...v1.13.0) (2023-04-21)
+
+
+### Features
+
+* provide login instructions ([49ca414](https://github.com/kptdobe/franklin-chat-ui/commit/49ca41426c9ca4b583d018cfa407ce530b03b8e9))
+
 # [1.12.0](https://github.com/kptdobe/franklin-chat-ui/compare/v1.11.0...v1.12.0) (2023-04-21)
 
 
