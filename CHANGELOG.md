@@ -1,3 +1,10 @@
+# [1.18.0](https://github.com/kptdobe/franklin-chat-ui/compare/v1.17.0...v1.18.0) (2023-04-21)
+
+
+### Features
+
+* update logo and remove file upload ([c936239](https://github.com/kptdobe/franklin-chat-ui/commit/c93623945149ec57b128ed4a0ba4abca39eb2f08))
+
 # [1.17.0](https://github.com/kptdobe/franklin-chat-ui/compare/v1.16.0...v1.17.0) (2023-04-21)
 
 
