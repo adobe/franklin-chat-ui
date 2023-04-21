@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useCallback, useRef, useState} from 'react';
+import React, {useCallback, useRef} from 'react';
 import {KeyboardEvent} from '@react-types/shared';
 import {
   ActionButton,
@@ -9,7 +9,6 @@ import {
   Menu,
   MenuTrigger,
   TextArea,
-  View
 } from '@adobe/react-spectrum';
 import Send from '@spectrum-icons/workflow/Send';
 import {convertAllUnicodeToEmoji} from './Utils';
@@ -18,21 +17,13 @@ import {useApplicationContext} from './ApplicationProvider';
 export function MessageEditorComponent({thread_ts}: {thread_ts?: string}) {
   const {chatClient} = useApplicationContext();
   const [message, setMessage] = React.useState('');
-  const [file, setFile] = useState<File>();
 
   const inputRef = useRef<any>(null);
 
-  const handleFileChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      setFile(e.target.files[0]);
-    }
-  }, []);
-
   const onDone = () => {
     console.log(`sending message ${message}...`);
-    chatClient.send((convertAllUnicodeToEmoji(message)), file, thread_ts);
+    chatClient.send((convertAllUnicodeToEmoji(message)), thread_ts);
     setMessage('');
-    setFile(undefined);
   }
 
   const onEnter = (e: KeyboardEvent) => {
@@ -90,8 +81,6 @@ export function MessageEditorComponent({thread_ts}: {thread_ts?: string}) {
             <Item key="👎">👎</Item>
           </Menu>
         </MenuTrigger>
-        <View flexGrow={1}/>
-        <input type="file" onChange={handleFileChange} style={{alignSelf: 'center'}} hidden/>
       </ButtonGroup>
       <TextArea width="100%" onChange={setMessage} onKeyDown={onEnter} value={message} description="Shift+Enter for new line" height='100px' ref={inputRef}/>
       <ButtonGroup width="100%">

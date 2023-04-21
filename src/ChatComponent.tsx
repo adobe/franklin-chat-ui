@@ -1,20 +1,20 @@
 import React, {useCallback, useEffect} from 'react';
 import {
   ActionButton,
-  Badge,
   Button,
   DialogTrigger,
   Divider,
-  Flex,
+  Flex, Image,
   Text,
   useProvider,
   View
 } from '@adobe/react-spectrum';
+import Logo from './logo.png';
 import DefaultUserIcon from './user.png';
+import { FaPlug } from 'react-icons/fa';
 import Link from '@spectrum-icons/workflow/Link';
 import Chat from '@spectrum-icons/workflow/Reply';
 import Logout from '@spectrum-icons/workflow/LogOut';
-import CheckmarkCircle from '@spectrum-icons/workflow/CheckmarkCircle';
 import {useApplicationContext} from './ApplicationProvider';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import {useAuthContext} from './AuthProvider';
@@ -61,9 +61,10 @@ function ChatComponent(){
   return(
     <Flex direction="column" gap="size-100" height='100%' justifyContent='center'>
       <Flex direction={'row'} alignItems={'center'} justifyContent={'space-between'} margin={10} gap={10}>
-        <Badge alignSelf="center" variant={connected ? 'positive' : 'negative'}><CheckmarkCircle /></Badge>
+        <Image src={Logo} width={32} height={32}/>
         <ChatTitle title={title} colorScheme={colorScheme}/>
         <View flexGrow={1}/>
+        <FaPlug color={connected ? 'green' : '#ccc'} size={20}/>
         <Button onPress={logout} variant='primary' isDisabled={!connected}>Logout&nbsp;<Logout/></Button>
       </Flex>
       <Divider orientation="horizontal" size="S" />

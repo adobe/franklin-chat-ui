@@ -90,14 +90,14 @@ export class ChatClient {
         }
     }
 
-    send(text: string, file?: File, ts?: string) {
+    send(text: string, ts?: string) {
         this.client.emit('message', {
             threadId: ts,
             user: {
                 name: this.email,
             },
             text
-        } as Message, file);
+        } as Message);
     }
 
     getTeamId() {
