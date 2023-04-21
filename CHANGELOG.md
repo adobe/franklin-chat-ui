@@ -1,3 +1,10 @@
+# [1.16.0](https://github.com/kptdobe/franklin-chat-ui/compare/v1.15.0...v1.16.0) (2023-04-21)
+
+
+### Features
+
+* resolve user mentions and support files from slack ([e2ad56d](https://github.com/kptdobe/franklin-chat-ui/commit/e2ad56da1c500e29cb02c68d3f032e36879c5f15))
+
 # [1.15.0](https://github.com/kptdobe/franklin-chat-ui/compare/v1.14.0...v1.15.0) (2023-04-21)
 
 
