@@ -1,3 +1,10 @@
+# [1.12.0](https://github.com/kptdobe/franklin-chat-ui/compare/v1.11.0...v1.12.0) (2023-04-21)
+
+
+### Features
+
+* improve message editor ([99db529](https://github.com/kptdobe/franklin-chat-ui/commit/99db529460f5d6ba8db701dc6a1071ef71a2d264))
+
 # [1.11.0](https://github.com/kptdobe/franklin-chat-ui/compare/v1.10.0...v1.11.0) (2023-04-20)
 
 
