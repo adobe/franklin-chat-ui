@@ -11,6 +11,6 @@ export function ChatTitle({title, colorScheme}: {title: string, colorScheme: str
     <h3 style={{
       color: colorScheme === 'dark' ? 'white' : 'black', margin: 0, fontStyle: 'normal',
       opacity: opacity,
-      transition: opacity ? 'all 1s' : 'none'}}>{title}</h3>
+      transition: opacity ? 'all 1s' : 'none'}} dangerouslySetInnerHTML={{__html: title}}/>
   );
 }

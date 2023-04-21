@@ -23,6 +23,7 @@ export class ChatClient {
     private client: Socket;
 
     private email: string|undefined;
+    private teamId: string|undefined;
     private channelId: string|undefined;
     private channelName: string|undefined;
 
@@ -43,12 +44,13 @@ export class ChatClient {
         this.client.on("reconnect", (attempt) => console.log(`reconnect: ${attempt}`));
         this.client.on("error", (error) => console.log(`error: ${error}`));
 
-        this.client.on('ready', async ({email, channelId, channelName}) => {
-            if (!email || !channelId || !channelName) {
-                console.error(`Client ready without email or channel: ${email}, ${channelId}, ${channelName}. Disconnecting...`);
+        this.client.on('ready', async ({email, channelId, teamId, channelName}) => {
+            if (!email || !channelId || !teamId || !channelName) {
+                console.error(`Client ready without email or channel: ${email}, ${channelId}, ${teamId}, ${channelName}. Disconnecting...`);
                 this.client.disconnect();
             }
             this.email = email;
+            this.teamId = teamId;
             this.channelId = channelId;
             this.channelName = channelName;
             console.log(`Client ready: ${email}, ${channelId}`);
@@ -88,6 +90,14 @@ export class ChatClient {
             },
             text,
         } as Message);
+    }
+
+    getTeamId() {
+        return this.teamId;
+    }
+
+    getChannelId() {
+        return this.channelId;
     }
 
     getChannelName() {

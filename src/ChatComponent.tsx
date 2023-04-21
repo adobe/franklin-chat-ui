@@ -39,8 +39,10 @@ function ChatComponent(){
     application.chatClient.addConnectionCallback((connected: boolean) => {
       console.log('onConnection', connected);
       if (connected) {
+        const TEAM_ID = application.chatClient.getTeamId();
+        const channelId = application.chatClient.getChannelId() as string;
         const channelName = application.chatClient.getChannelName() as string;
-        setTitle(`You are chatting in ${channelName.toUpperCase()}`);
+        setTitle(`You are chatting in <a href="slack://channel?team=${TEAM_ID}&id=${channelId}">${channelName}</a>`);
       }
       setConnected(connected);
     });
@@ -105,7 +107,8 @@ function ChatComponent(){
                       {(close) => <ThreadComponent ts={item.ts} close={close}/>}
                     </DialogTrigger>
                   </Flex>
-                  <p style={{fontSize: 15, marginTop: 5, marginBottom: 5, lineHeight: 1.2}} dangerouslySetInnerHTML={{__html: convertSlackToHtml(item.text)}}/>
+                  <p style={{fontSize: 15, marginTop: 5, marginBottom: 5, lineHeight: 1.2}}
+                     dangerouslySetInnerHTML={{__html: convertSlackToHtml(item.text, application.chatClient.getTeamId() as string)}}/>
                   { item.replyCount &&
                     <div>
                       <DialogTrigger type="modal" isDismissable>

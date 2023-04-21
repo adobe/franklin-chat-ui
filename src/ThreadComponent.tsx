@@ -46,7 +46,8 @@ export function ThreadComponent({ ts, close }: {ts: string, close: () => void}) 
                       <div style={{fontSize: 10}}>{convertSlackTimestampToUTC(item.ts)}</div>
                     </Flex>
                   </Flex>
-                  <p style={{fontSize: 15, marginTop: 5, marginBottom: 5, lineHeight: 1.2}} dangerouslySetInnerHTML={{__html: convertSlackToHtml(item.text)}}/>
+                  <p style={{fontSize: 15, marginTop: 5, marginBottom: 5, lineHeight: 1.2}}
+                     dangerouslySetInnerHTML={{__html: convertSlackToHtml(item.text, application.chatClient.getTeamId() as string)}}/>
                 </Flex>
               </Flex>
               { item.ts === ts &&

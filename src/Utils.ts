@@ -66,9 +66,10 @@ export const REVERSED_EMOJIS: { [key: string]: string } = Object.entries(EMOJIS)
   {} as { [key: string]: string }
 );
 
-export function convertSlackToHtml(slackText: string) {
-  slackText = convertAllEmojiToUnicode(slackText);
+export function convertSlackToHtml(slackText: string, teamId: string) {
   slackText = convertSlackLinksToHTML(slackText);
+  slackText = convertSlackUserMentionsToDeepLinks(slackText, teamId);
+  slackText = convertAllEmojiToUnicode(slackText);
   slackText = slackText.replace(/\*(.*?)\*/g, '<strong>$1</strong>');
   slackText = slackText.replace(/_(.*?)_/g, '<em>$1</em>');
   slackText = slackText.replace(/~(.*?)~/g, '<del>$1</del>');
@@ -83,11 +84,18 @@ export function convertSlackTimestampToUTC(slackTimestamp: string) {
   return date.toUTCString();
 }
 
+function convertSlackUserMentionsToDeepLinks(message: string, teamId: string): string {
+  const slackUserMentionRegex = /<@(.+?)>/g;
+  return message.replace(slackUserMentionRegex, (match, userId) => {
+    return `<a href='slack://user?team=${teamId}&id=${userId}'>@${userId.toLowerCase()}</a>`;
+  });
+}
+
 function convertSlackLinksToHTML(text: string): string {
-  const regex = /<([^|>]+)(?:\|([^>]+))?>/g;
+  const regex = /<(?![@#])([^|>]+)(?:\|([^>]+))?>/g;
   return text.replace(regex, (_, url, linkText) => {
     if (!linkText) {
-      linkText = url; // Use the URL as the link text if none is provided
+      linkText = url;
     }
     return `<a href="${url}">${linkText}</a>`;
   });
