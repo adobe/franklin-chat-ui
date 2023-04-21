@@ -7,27 +7,22 @@ import {MessageEditorComponent} from './MessageEditorComponent';
 import {convertSlackTimestampToUTC, convertSlackToHtml} from './Utils';
 
 export function ThreadComponent({ ts, close }: {ts: string, close: () => void}) {
-  const application = useApplicationContext();
+  const {chatClient} = useApplicationContext();
   const [replies, setReplies] = React.useState<Message[]>([]);
 
   const fetchMoreData = useCallback(async () => {
     console.log(`fetching replies for ${ts}...`);
-    const replies = await application.chatClient.getReplies(ts);
+    const replies = await chatClient.getReplies(ts);
     setReplies(replies);
     console.log('replies', replies);
-  }, [application.chatClient, ts]);
+  }, [chatClient, ts]);
 
   useEffect(() => {
-    application.chatClient.addMessageCallback((history: any[]) => {
+    chatClient.addMessageCallback((history: any[]) => {
       fetchMoreData().catch(console.error);
     });
     fetchMoreData().catch(console.error);
-  }, [application.chatClient, fetchMoreData]);
-
-  const onSend = (message: string) => {
-    console.log(`sending reply to ${ts}: ${message}`);
-    application.chatClient.send(message, ts);
-  }
+  }, [chatClient, fetchMoreData]);
 
   return (
     <Dialog>
@@ -47,7 +42,7 @@ export function ThreadComponent({ ts, close }: {ts: string, close: () => void}) 
                     </Flex>
                   </Flex>
                   <p style={{fontSize: 15, marginTop: 5, marginBottom: 5, lineHeight: 1.2}}
-                     dangerouslySetInnerHTML={{__html: convertSlackToHtml(item.text, application.chatClient.getTeamId() as string)}}/>
+                     dangerouslySetInnerHTML={{__html: convertSlackToHtml(item.text, chatClient.getTeamId() as string)}}/>
                 </Flex>
               </Flex>
               { item.ts === ts &&
@@ -63,7 +58,7 @@ export function ThreadComponent({ ts, close }: {ts: string, close: () => void}) 
             </IllustratedMessage>
           }
         </Flex>
-        <MessageEditorComponent onSend={onSend}/>
+        <MessageEditorComponent thread_ts={ts}/>
       </Content>
     </Dialog>);
 }

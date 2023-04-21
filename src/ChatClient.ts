@@ -1,6 +1,6 @@
 import {io, Socket} from 'socket.io-client';
 
-type User = {
+export type User = {
     name: string,
     icon?: string,
 };
@@ -11,6 +11,14 @@ export type Message = {
     text: string
     threadId?: string
     replyCount?: number
+    files?: Attachment[]
+}
+
+export type Attachment = {
+    id: string
+    name: string
+    url: string
+    thumbUrl: string
 }
 
 export type ConnectionCallback = (connected: boolean) => void;
@@ -82,14 +90,14 @@ export class ChatClient {
         }
     }
 
-    send(text: string, ts?: string) {
+    send(text: string, file?: File, ts?: string) {
         this.client.emit('message', {
             threadId: ts,
             user: {
                 name: this.email,
             },
-            text,
-        } as Message);
+            text
+        } as Message, file);
     }
 
     getTeamId() {

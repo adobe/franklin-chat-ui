@@ -85,9 +85,9 @@ export function convertSlackTimestampToUTC(slackTimestamp: string) {
 }
 
 function convertSlackUserMentionsToDeepLinks(message: string, teamId: string): string {
-  const slackUserMentionRegex = /<@(.+?)>/g;
-  return message.replace(slackUserMentionRegex, (match, userId) => {
-    return `<a href='slack://user?team=${teamId}&id=${userId}'>@${userId.toLowerCase()}</a>`;
+  const slackUserMentionRegex = /<@(\w+)\|([^>]+)>/g;
+  return message.replace(slackUserMentionRegex, (match, userId, userName) => {
+    return `<a href='slack://user?team=${teamId}&id=${userId}'>@${userName}</a>`;
   });
 }
 

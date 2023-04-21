@@ -11,6 +11,7 @@ import {
   View
 } from '@adobe/react-spectrum';
 import DefaultUserIcon from './user.png';
+import Link from '@spectrum-icons/workflow/Link';
 import Chat from '@spectrum-icons/workflow/Reply';
 import Logout from '@spectrum-icons/workflow/LogOut';
 import CheckmarkCircle from '@spectrum-icons/workflow/CheckmarkCircle';
@@ -56,11 +57,6 @@ function ChatComponent(){
     console.log('fetchMoreData');
     setHasMore(await application.chatClient.requestHistory());
   }, [application.chatClient]);
-
-  const onSend = (message: string) => {
-    console.log(`sending message ${message}...`);
-    application.chatClient.send(message);
-  }
 
   return(
     <Flex direction="column" gap="size-100" height='100%' justifyContent='center'>
@@ -109,6 +105,16 @@ function ChatComponent(){
                   </Flex>
                   <p style={{fontSize: 15, marginTop: 5, marginBottom: 5, lineHeight: 1.2}}
                      dangerouslySetInnerHTML={{__html: convertSlackToHtml(item.text, application.chatClient.getTeamId() as string)}}/>
+                  { (item.files && item.files.length > 0) &&
+                    <div>
+                      {item.files.map((file: any) => (
+                        <Flex direction='row' key={file.id} gap={10}>
+                          <Link size='M'/>
+                          <a href={file.url} target='_blank' rel='noreferrer'>{file.name}</a>
+                        </Flex>
+                      ))}
+                    </div>
+                  }
                   { item.replyCount &&
                     <div>
                       <DialogTrigger type="modal" isDismissable>
@@ -124,7 +130,7 @@ function ChatComponent(){
         </InfiniteScroll>
       </div>
       <Divider orientation="horizontal" size="S" />
-      <MessageEditorComponent onSend={onSend}/>
+      <MessageEditorComponent/>
     </Flex>
   )
 }
