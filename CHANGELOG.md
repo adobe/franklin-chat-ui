@@ -1,3 +1,10 @@
+# [1.14.0](https://github.com/kptdobe/franklin-chat-ui/compare/v1.13.0...v1.14.0) (2023-04-21)
+
+
+### Features
+
+* convert slack links to html ([82b4e3b](https://github.com/kptdobe/franklin-chat-ui/commit/82b4e3b5c7a2f7ed5fd2b3739c1e348676820cad))
+
 # [1.13.0](https://github.com/kptdobe/franklin-chat-ui/compare/v1.12.0...v1.13.0) (2023-04-21)
 
 
