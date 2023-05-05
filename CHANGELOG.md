@@ -1,3 +1,12 @@
+## [1.18.1](https://github.com/adobe/franklin-chat-ui/compare/v1.18.0...v1.18.1) (2023-05-05)
+
+
+### Bug Fixes
+
+* here mention renders as a broken link ([7de0dbd](https://github.com/adobe/franklin-chat-ui/commit/7de0dbdc92e5425fe978c244cd5de517f332642c))
+* link color looks odd in dark mode ([816d07f](https://github.com/adobe/franklin-chat-ui/commit/816d07f91721b3a17d925be09edb2d31efe0345c))
+* remove links from mentions ([ab8495e](https://github.com/adobe/franklin-chat-ui/commit/ab8495edd87e3ea70336a2b0378101ffc7483c31))
+
 # [1.18.0](https://github.com/kptdobe/franklin-chat-ui/compare/v1.17.0...v1.18.0) (2023-04-21)
 
 
