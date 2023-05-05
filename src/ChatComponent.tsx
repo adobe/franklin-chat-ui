@@ -1,13 +1,13 @@
 import React, {useCallback, useEffect} from 'react';
 import {
-  ActionButton,
-  Button,
-  DialogTrigger,
-  Divider,
-  Flex, Image,
-  Text,
-  useProvider,
-  View
+    ActionButton,
+    Button,
+    DialogTrigger,
+    Divider,
+    Flex, Image, StatusLight,
+    Text,
+    useProvider,
+    View
 } from '@adobe/react-spectrum';
 import Logo from './logo.png';
 import DefaultUserIcon from './user.png';
@@ -64,7 +64,7 @@ function ChatComponent(){
         <Image src={Logo} width={32} height={32}/>
         <ChatTitle title={title} colorScheme={colorScheme}/>
         <View flexGrow={1}/>
-        <FaPlug color={connected ? 'green' : '#ccc'} size={20}/>
+        <StatusLight variant={connected ? 'positive' : 'negative'}>{connected ? 'Connected' : 'Disconnected'}</StatusLight>
         <Button onPress={logout} variant='primary' isDisabled={!connected}>Logout&nbsp;<Logout/></Button>
       </Flex>
       <Divider orientation="horizontal" size="S" />

@@ -33,3 +33,7 @@ body {
     opacity: 1;
   }
 }
+
+*:any-link {
+  color: inherit;
+}
