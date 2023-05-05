@@ -92,7 +92,7 @@ function convertHereMention(message: string): string {
 function convertSlackUserMentionsToDeepLinks(message: string, teamId: string): string {
   const slackUserMentionRegex = /<@(\w+)\|([^>]+)>/g;
   return message.replace(slackUserMentionRegex, (match, userId, userName) => {
-    return `<a href='slack://user?team=${teamId}&id=${userId}'>@${userName}</a>`;
+    return `<b>@${userName}</b>`;
   });
 }
 
