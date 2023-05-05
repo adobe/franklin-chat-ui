@@ -11,7 +11,6 @@ import {
 } from '@adobe/react-spectrum';
 import Logo from './logo.png';
 import DefaultUserIcon from './user.png';
-import { FaPlug } from 'react-icons/fa';
 import Link from '@spectrum-icons/workflow/Link';
 import Chat from '@spectrum-icons/workflow/Reply';
 import Logout from '@spectrum-icons/workflow/LogOut';
