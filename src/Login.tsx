@@ -21,7 +21,7 @@ export default function Login() {
   return (
     <Flex justifyContent='center' alignItems='center' height='100%'>
       <Form width='500px' onSubmit={onLogin} validationState={isValid ? 'valid' : 'invalid'} >
-        <Heading level={2}>Log into Franklin Chat</Heading>
+        <Heading level={2}>Log in to Franklin Chat</Heading>
         <Well marginBottom={10}>
           <ol style={{margin: 10, padding: 0}}>
             <li>Enter your business email address and click on the "Login" button</li>
@@ -29,7 +29,7 @@ export default function Login() {
             <li>Go back to the app and start chatting</li>
           </ol>
         </Well>
-        <TextField label="Your Business E-Mail" value={email} onChange={setEmail} isRequired width='300px'/>
+        <TextField label="Your business e-mail address" value={email} onChange={setEmail} isRequired width='300px'/>
         <ButtonGroup marginTop={25}>
           <Button variant="primary" type='submit' isDisabled={!email.trim().length}>Login</Button>
         </ButtonGroup>
