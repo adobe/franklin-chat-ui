@@ -1,3 +1,10 @@
+## [1.18.2](https://github.com/adobe/franklin-chat-ui/compare/v1.18.1...v1.18.2) (2023-05-16)
+
+
+### Bug Fixes
+
+* **login:** capitalization of words ([#17](https://github.com/adobe/franklin-chat-ui/issues/17)) ([6e230aa](https://github.com/adobe/franklin-chat-ui/commit/6e230aa7fea3ba30ba361b038746e469a8e6e36e))
+
 ## [1.18.1](https://github.com/adobe/franklin-chat-ui/compare/v1.18.0...v1.18.1) (2023-05-05)
 
 
