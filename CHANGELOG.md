@@ -1,3 +1,10 @@
+# [1.19.0](https://github.com/adobe/franklin-chat-ui/compare/v1.18.2...v1.19.0) (2023-05-17)
+
+
+### Features
+
+* move to prod gdrive ([26d6866](https://github.com/adobe/franklin-chat-ui/commit/26d6866aa607d4f8a989db2551632b49e9b43375))
+
 ## [1.18.2](https://github.com/adobe/franklin-chat-ui/compare/v1.18.1...v1.18.2) (2023-05-16)
 
 
