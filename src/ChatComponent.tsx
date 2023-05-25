@@ -4,7 +4,7 @@ import {
     Button,
     DialogTrigger,
     Divider,
-    Flex, Image, StatusLight,
+    Flex, Image,
     Text,
     useProvider,
     View
@@ -38,12 +38,7 @@ function ChatComponent(){
   useEffect(() => {
     application.chatClient.addConnectionCallback((connected: boolean) => {
       console.log('onConnection', connected);
-      if (connected) {
-        const TEAM_ID = application.chatClient.getTeamId();
-        const channelId = application.chatClient.getChannelId() as string;
-        const channelName = application.chatClient.getChannelName() as string;
-        setTitle(`You are chatting in <a href="slack://channel?team=${TEAM_ID}&id=${channelId}">${channelName}</a>`);
-      }
+      setTitle(connected ? 'Connected to Adobe!' : 'Connecting...');
       setConnected(connected);
     });
     application.chatClient.addMessageCallback((history: any[]) => {
@@ -63,7 +58,6 @@ function ChatComponent(){
         <Image src={Logo} width={32} height={32}/>
         <ChatTitle title={title} colorScheme={colorScheme}/>
         <View flexGrow={1}/>
-        <StatusLight variant={connected ? 'positive' : 'negative'}>{connected ? 'Connected' : 'Disconnected'}</StatusLight>
         <Button onPress={logout} variant='primary' isDisabled={!connected}>Logout&nbsp;<Logout/></Button>
       </Flex>
       <Divider orientation="horizontal" size="S" />
