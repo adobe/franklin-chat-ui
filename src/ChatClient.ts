@@ -21,8 +21,14 @@ export type Attachment = {
     thumbUrl: string
 }
 
-export type ConnectionCallback = (connected: boolean) => void;
+export enum ConnectionStatus {
+    CONNECTED,
+    DISCONNECTED,
+}
+
+export type ConnectionCallback = (status: ConnectionStatus) => void;
 export type MessageCallback = (history: Message[]) => void;
+export type ErrorCallback = (error: Error) => void;
 
 const SERVICE_ENDPOINT = process.env.REACT_APP_SERVICE_ENDPOINT || 'ws://localhost:8081';
 console.log(`Using service endpoint: ${SERVICE_ENDPOINT}`);
@@ -37,8 +43,12 @@ export class ChatClient {
 
     private history: Message[] = [];
 
-    private connectionCallbacks: ConnectionCallback[] = [];
+    private connectionStatus: ConnectionStatus = ConnectionStatus.DISCONNECTED;
+    private error: Error|undefined;
+
+    private statusCallbacks: ConnectionCallback[] = [];
     private messageCallbacks: MessageCallback[] = [];
+    private errorCallbacks: ErrorCallback[] = [];
 
     constructor(private token: string) {
         this.client = io(SERVICE_ENDPOINT, {
@@ -48,9 +58,12 @@ export class ChatClient {
             }
         });
 
-        this.client.on("disconnect", () => { this.fireConnectionChange(false) });
         this.client.on("reconnect", (attempt) => console.log(`reconnect: ${attempt}`));
-        this.client.on("error", (error) => console.log(`error: ${error}`));
+        this.client.on("disconnect", () => { this.fireStatusChange(ConnectionStatus.DISCONNECTED) });
+        this.client.on("error", (error) => {
+            console.log(`Error: ${error}`);
+            this.fireError(new Error(error));
+        });
 
         this.client.on('ready', async ({email, channelId, teamId, channelName}) => {
             if (!email || !channelId || !teamId || !channelName) {
@@ -62,24 +75,28 @@ export class ChatClient {
             this.channelId = channelId;
             this.channelName = channelName;
             console.log(`Client ready: ${email}, ${channelId}`);
-            this.fireConnectionChange(true)
-            this.requestHistory();
+            this.fireStatusChange(ConnectionStatus.CONNECTED);
+            await this.requestHistory();
         });
         this.client.on('message', (data) => { this.fireMessage(data as Message) });
     }
 
-    addConnectionCallback(callback: ConnectionCallback) {
-        this.connectionCallbacks.push(callback);
+    addStatusCallback(callback: ConnectionCallback) {
+        callback(this.connectionStatus);
+        this.statusCallbacks.push(callback);
     }
 
-    removeConnectionCallback(callback: ConnectionCallback) {
-        const index = this.connectionCallbacks.indexOf(callback);
+    removeStatusCallback(callback: ConnectionCallback) {
+        const index = this.statusCallbacks.indexOf(callback);
         if (index > -1) {
-            this.connectionCallbacks.splice(index, 1);
+            this.statusCallbacks.splice(index, 1);
         }
     }
 
     addMessageCallback(callback: MessageCallback) {
+        if (this.history.length > 0) {
+            callback(this.history);
+        }
         this.messageCallbacks.push(callback);
     }
 
@@ -88,6 +105,24 @@ export class ChatClient {
         if (index > -1) {
             this.messageCallbacks.splice(index, 1);
         }
+    }
+
+    addErrorCallback(callback: ErrorCallback) {
+        if (this.error) {
+            callback(this.error);
+        }
+        this.errorCallbacks.push(callback);
+    }
+
+    removeErrorCallback(callback: ErrorCallback) {
+        const index = this.errorCallbacks.indexOf(callback);
+        if (index > -1) {
+            this.errorCallbacks.splice(index, 1);
+        }
+    }
+
+    getConnectionStatus() {
+        return this.connectionStatus;
     }
 
     send(text: string, ts?: string) {
@@ -131,8 +166,9 @@ export class ChatClient {
         return messages.length > 0;
     }
 
-    private fireConnectionChange(connected: boolean) {
-        this.connectionCallbacks.forEach(callback => callback(connected));
+    private fireStatusChange(status: ConnectionStatus) {
+        this.connectionStatus = status;
+        this.statusCallbacks.forEach(callback => callback(status));
     }
 
     private fireMessage(message: Message) {
@@ -146,5 +182,10 @@ export class ChatClient {
             this.history.unshift(message);
         }
         this.messageCallbacks.forEach(callback => callback(this.history));
+    }
+
+    fireError(error: Error) {
+        this.error = error;
+        this.errorCallbacks.forEach(callback => callback(error));
     }
 }

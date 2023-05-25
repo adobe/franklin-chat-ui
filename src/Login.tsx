@@ -1,5 +1,18 @@
-import {useMemo, useState} from 'react';
-import {Form, TextField, Button, Flex, ButtonGroup, Heading, Well} from '@adobe/react-spectrum';
+import React, {useMemo, useState} from 'react';
+import {
+  Form,
+  TextField,
+  Button,
+  Flex,
+  ButtonGroup,
+  Heading,
+  Well,
+  Image,
+  Grid,
+  Content,
+  ContextualHelp
+} from '@adobe/react-spectrum';
+import logo from './logo.png';
 
 import {useAuthContext} from './AuthProvider';
 
@@ -20,20 +33,29 @@ export default function Login() {
 
   return (
     <Flex justifyContent='center' alignItems='center' height='100%'>
-      <Form width='500px' onSubmit={onLogin} validationState={isValid ? 'valid' : 'invalid'} >
-        <Heading level={2}>Log in to Franklin Chat</Heading>
-        <Well marginBottom={10}>
-          <ol style={{margin: 10, padding: 0}}>
-            <li>Enter your business email address and click on the "Login" button</li>
-            <li>Open the email you received and click on the link</li>
-            <li>Go back to the app and start chatting</li>
-          </ol>
-        </Well>
-        <TextField label="Your business e-mail address" value={email} onChange={setEmail} isRequired width='300px'/>
+      <div style={{borderRadius: 25, border: '1px solid #ccc', padding: 10, boxShadow: '0 0 3px #ccc'}}>
+      <Form width='300px' onSubmit={onLogin} margin={35}>
+        <Flex direction="row" alignItems="center" gap={10} marginBottom={35}>
+          <Image src={logo} width={64} height={64}/>
+          <Flex direction="column">
+            <Heading level={2} margin={0}>Adobe Support</Heading>
+            <Heading level={4} margin={0}>We are here to help!</Heading>
+          </Flex>
+        </Flex>
+        <TextField label="Enter your business email address" value={email} onChange={setEmail} width='300px' isQuiet contextualHelp={
+          <ContextualHelp>
+            <Content>
+              To begin chatting, simply enter your business email address,
+              click on the "Login" button, open the email you received,
+              click on the provided link, and enjoy chatting with our friendly support team.
+            </Content>
+          </ContextualHelp>
+        }/>
         <ButtonGroup marginTop={25}>
           <Button variant="primary" type='submit' isDisabled={!email.trim().length}>Login</Button>
         </ButtonGroup>
       </Form>
+      </div>
     </Flex>
   );
 };

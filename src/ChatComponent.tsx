@@ -1,13 +1,14 @@
 import React, {useCallback, useEffect} from 'react';
 import {
-    ActionButton,
-    Button,
-    DialogTrigger,
-    Divider,
-    Flex, Image,
-    Text,
-    useProvider,
-    View
+  ActionButton, AlertDialog,
+  Button, DialogContainer,
+  DialogTrigger,
+  Divider,
+  Flex,
+  Image,
+  Text,
+  useProvider,
+  View
 } from '@adobe/react-spectrum';
 import Logo from './logo.png';
 import DefaultUserIcon from './user.png';
@@ -21,6 +22,7 @@ import {ThreadComponent} from './ThreadComponent';
 import {MessageEditorComponent} from './MessageEditorComponent';
 import {convertSlackTimestampToUTC, convertSlackToHtml} from './Utils';
 import {ChatTitle} from './ChatTitle';
+import {ConnectionStatus} from "./ChatClient";
 
 function ChatComponent(){
   const application = useApplicationContext();
@@ -29,21 +31,24 @@ function ChatComponent(){
 
   const [history, setHistory] = React.useState<any[]>([]);
   const [hasMore, setHasMore] = React.useState(true);
-  const [title, setTitle] = React.useState('Connecting...');
 
-  const [connected, setConnected] = React.useState(false);
+  const [connectionStatus, setConnectionStatus] = React.useState<ConnectionStatus>(ConnectionStatus.DISCONNECTED);
+  const [error, setError] = React.useState<Error|undefined>(undefined);
 
   const [highlightedItem, setHighlightedItem] = React.useState(undefined);
 
   useEffect(() => {
-    application.chatClient.addConnectionCallback((connected: boolean) => {
-      console.log('onConnection', connected);
-      setTitle(connected ? 'Connected to Adobe!' : 'Connecting...');
-      setConnected(connected);
+    application.chatClient.addStatusCallback((status: ConnectionStatus) => {
+      console.log('onStatus', status);
+      setConnectionStatus(status);
     });
     application.chatClient.addMessageCallback((history: any[]) => {
       console.log('onMessage', history);
       setHistory([...history]);
+    });
+    application.chatClient.addErrorCallback((error: Error) => {
+      console.log('onError', error);
+      setError(error);
     });
   }, [application]);
 
@@ -56,9 +61,9 @@ function ChatComponent(){
     <Flex direction="column" gap="size-100" height='100%' justifyContent='center'>
       <Flex direction={'row'} alignItems={'center'} justifyContent={'space-between'} margin={10} gap={10}>
         <Image src={Logo} width={32} height={32}/>
-        <ChatTitle title={title} colorScheme={colorScheme}/>
+        <ChatTitle title={connectionStatus === ConnectionStatus.CONNECTED ? 'Connected to Adobe!' : 'Disconnected'} colorScheme={colorScheme}/>
         <View flexGrow={1}/>
-        <Button onPress={logout} variant='primary' isDisabled={!connected}>Logout&nbsp;<Logout/></Button>
+        <Button onPress={logout} variant='primary' isDisabled={connectionStatus !== ConnectionStatus.CONNECTED}>Logout&nbsp;<Logout/></Button>
       </Flex>
       <Divider orientation="horizontal" size="S" />
       <div
@@ -125,6 +130,16 @@ function ChatComponent(){
       </div>
       <Divider orientation="horizontal" size="S" />
       <MessageEditorComponent/>
+      <DialogContainer onDismiss={() => logout()}>
+        {error &&
+          <AlertDialog
+            title="Ops! Something went wrong."
+            variant="error"
+            primaryActionLabel="Logout">
+            Please contact Adobe support.
+          </AlertDialog>
+        }
+      </DialogContainer>
     </Flex>
   )
 }
