@@ -1,3 +1,13 @@
+# [1.20.0](https://github.com/adobe/franklin-chat-ui/compare/v1.19.0...v1.20.0) (2023-05-26)
+
+
+### Features
+
+* do not show channel name ([a304312](https://github.com/adobe/franklin-chat-ui/commit/a304312ead31506cbdf0b8e50a66d1b1d7513d5f))
+* improve dialogs ([a10a5ba](https://github.com/adobe/franklin-chat-ui/commit/a10a5ba615d105b2303aca25c368b1c58580711d))
+* show error message if no mapping ([e488d85](https://github.com/adobe/franklin-chat-ui/commit/e488d85e96ad7ae6044a80133fcd78c51405d44f))
+* show error message if no mapping ([655b212](https://github.com/adobe/franklin-chat-ui/commit/655b21271c41441a9651549a4c834cdfedd64779))
+
 # [1.19.0](https://github.com/adobe/franklin-chat-ui/compare/v1.18.2...v1.19.0) (2023-05-17)
 
 
