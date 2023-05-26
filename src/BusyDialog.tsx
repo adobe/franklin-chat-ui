@@ -6,7 +6,7 @@ import {
   Flex,
   Heading,
 } from '@adobe/react-spectrum';
-import ImageCheck from '@spectrum-icons/workflow/ImageCheck';
+import ImageCheck from '@spectrum-icons/ui/InfoMedium';
 import React from 'react';
 
 export function BusyDialog({text}: {text: string}) {
