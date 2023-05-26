@@ -1,4 +1,4 @@
-import React, {useMemo, useState} from 'react';
+import React, {useState} from 'react';
 import {
   Form,
   TextField,
@@ -6,9 +6,7 @@ import {
   Flex,
   ButtonGroup,
   Heading,
-  Well,
   Image,
-  Grid,
   Content,
   ContextualHelp
 } from '@adobe/react-spectrum';
@@ -20,11 +18,6 @@ export default function Login() {
   const {login} = useAuthContext();
 
   const [email, setEmail] = useState('');
-
-  let isValid = useMemo(
-    () => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(email),
-    [email]
-  );
 
   const onLogin = async () => {
     console.log(`onLogin: ${email}`);

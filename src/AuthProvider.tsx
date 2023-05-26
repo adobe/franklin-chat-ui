@@ -1,7 +1,7 @@
 import React, {PropsWithChildren, useContext, useEffect, useMemo} from 'react';
 import {Magic} from 'magic-sdk';
 import Login from './Login';
-import {BusySpinner} from './BusySpinner';
+import {BusyDialog} from './BusyDialog';
 
 const REACT_MAGIC_LINK_API_KEY = process.env.REACT_APP_MAGIC_LINK_API_KEY as string;
 console.log(`Using Magic Link key: ${REACT_MAGIC_LINK_API_KEY}`);
@@ -68,7 +68,7 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({children}) => {
 
   return (
     <AuthContext.Provider value={authClient}>
-      {state.loading ? <BusySpinner text='Authenticating...'/> : (state.token ? <>{children}</> : <Login/>)}
+      {state.loading ? <BusyDialog text='Authenticating...'/> : (state.token ? <>{children}</> : <Login/>)}
     </AuthContext.Provider>
   );
 };
