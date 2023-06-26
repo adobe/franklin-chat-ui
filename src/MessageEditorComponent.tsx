@@ -22,7 +22,7 @@ export function MessageEditorComponent({thread_ts}: {thread_ts?: string}) {
 
   const onDone = () => {
     console.log(`sending message ${message}...`);
-    chatClient.send((convertAllUnicodeToEmoji(message)), thread_ts);
+    chatClient.postMessage((convertAllUnicodeToEmoji(message)), thread_ts);
     setMessage('');
   }
 
