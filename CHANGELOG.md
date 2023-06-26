@@ -1,3 +1,12 @@
+# [1.21.0](https://github.com/adobe/franklin-chat-ui/compare/v1.20.1...v1.21.0) (2023-06-26)
+
+
+### Features
+
+* add aws branch to semantic release ([020136d](https://github.com/adobe/franklin-chat-ui/commit/020136dd00725d6a4f8277b12a1b81e4a704294f))
+* add aws branch to semantic release ([68f6026](https://github.com/adobe/franklin-chat-ui/commit/68f60261efe4737b197cc81d922f169123448bbf))
+* connect to aws service ([e6c15de](https://github.com/adobe/franklin-chat-ui/commit/e6c15de6a7e7ff5420478df16c49569ed40a2550))
+
 ## [1.20.1](https://github.com/adobe/franklin-chat-ui/compare/v1.20.0...v1.20.1) (2023-05-26)
 
 
