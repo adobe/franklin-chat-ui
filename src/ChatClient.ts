@@ -1,29 +1,30 @@
-import {io, Socket} from 'socket.io-client';
+import {ConstantBackoff, Websocket, WebsocketBuilder,WebsocketEvents} from 'websocket-ts';
+import { v4 as uuid } from 'uuid';
 
 export type User = {
-    name: string,
-    icon?: string,
+  name: string,
+  icon?: string,
 };
 
 export type Message = {
-    ts: string
-    user: User
-    text: string
-    threadId?: string
-    replyCount?: number
-    files?: Attachment[]
+  ts: string
+  user: User
+  text: string
+  threadId?: string
+  replyCount?: number
+  files?: Attachment[]
 }
 
 export type Attachment = {
-    id: string
-    name: string
-    url: string
-    thumbUrl: string
+  id: string
+  name: string
+  url: string
+  thumbUrl: string
 }
 
 export enum ConnectionStatus {
-    CONNECTED,
-    DISCONNECTED,
+  CONNECTED,
+  DISCONNECTED,
 }
 
 export type ConnectionCallback = (status: ConnectionStatus) => void;
@@ -34,158 +35,212 @@ const SERVICE_ENDPOINT = process.env.REACT_APP_SERVICE_ENDPOINT || 'ws://localho
 console.log(`Using service endpoint: ${SERVICE_ENDPOINT}`);
 
 export class ChatClient {
-    private client: Socket;
+  private client: Websocket;
 
-    private email: string|undefined;
-    private teamId: string|undefined;
-    private channelId: string|undefined;
-    private channelName: string|undefined;
+  private email: string | undefined;
+  private teamId: string | undefined;
+  private channelId: string | undefined;
+  private channelName: string | undefined;
 
-    private history: Message[] = [];
+  private history: Message[] = [];
 
-    private connectionStatus: ConnectionStatus = ConnectionStatus.DISCONNECTED;
-    private error: Error|undefined;
+  private connectionStatus: ConnectionStatus = ConnectionStatus.DISCONNECTED;
+  private error: Error | undefined;
 
-    private statusCallbacks: ConnectionCallback[] = [];
-    private messageCallbacks: MessageCallback[] = [];
-    private errorCallbacks: ErrorCallback[] = [];
+  private statusCallbacks: ConnectionCallback[] = [];
+  private messageCallbacks: MessageCallback[] = [];
+  private errorCallbacks: ErrorCallback[] = [];
 
-    constructor(private token: string) {
-        this.client = io(SERVICE_ENDPOINT, {
-            reconnection: true,
-            query: {
-                "token": token
-            }
-        });
+  constructor(private token: string) {
+    const builder = new WebsocketBuilder(`${SERVICE_ENDPOINT}?token=${token}`)
+      .withBackoff(new ConstantBackoff(1000))
+      .onClose((i, ev) => {
+        this.fireStatusChange(ConnectionStatus.DISCONNECTED)
+      })
+      .onError((i, ev) => {
+        console.log(`Websocket error: ${ev}`);
+        this.fireError(new Error(`Websocket error: ${ev}`));
+      })
+      .onRetry((i, ev) => {
+        console.log("retry")
+      })
 
-        this.client.on("reconnect", (attempt) => console.log(`reconnect: ${attempt}`));
-        this.client.on("disconnect", () => { this.fireStatusChange(ConnectionStatus.DISCONNECTED) });
-        this.client.on("error", (error) => {
-            console.log(`Error: ${error}`);
-            this.fireError(new Error(error));
-        });
+    builder.onOpen(async (i, ev) => {
+      await this.join();
+    });
 
-        this.client.on('ready', async ({email, channelId, teamId, channelName}) => {
-            if (!email || !channelId || !teamId || !channelName) {
-                console.error(`Client ready without email or channel: ${email}, ${channelId}, ${teamId}, ${channelName}. Disconnecting...`);
-                this.client.disconnect();
-            }
-            this.email = email;
-            this.teamId = teamId;
-            this.channelId = channelId;
-            this.channelName = channelName;
-            console.log(`Client ready: ${email}, ${channelId}`);
-            this.fireStatusChange(ConnectionStatus.CONNECTED);
-            await this.requestHistory();
-        });
-        this.client.on('message', (data) => { this.fireMessage(data as Message) });
+    builder.onMessage(async (i, ev) => {
+      const message = JSON.parse(ev.data);
+      switch (message.type) {
+        case 'message':
+          console.log(`Client message: ${JSON.stringify(message.data)}`);
+          this.fireMessage(message.data)
+          break;
+        default:
+          console.log(`Client unknown message: ${JSON.stringify(message)}`);
+      }
+    });
+
+    this.client = builder.build();
+  }
+
+  addStatusCallback(callback: ConnectionCallback) {
+    callback(this.connectionStatus);
+    this.statusCallbacks.push(callback);
+  }
+
+  removeStatusCallback(callback: ConnectionCallback) {
+    const index = this.statusCallbacks.indexOf(callback);
+    if (index > -1) {
+      this.statusCallbacks.splice(index, 1);
+    }
+  }
+
+  addMessageCallback(callback: MessageCallback) {
+    if (this.history.length > 0) {
+      callback(this.history);
+    }
+    this.messageCallbacks.push(callback);
+  }
+
+  removeMessageCallback(callback: MessageCallback) {
+    const index = this.messageCallbacks.indexOf(callback);
+    if (index > -1) {
+      this.messageCallbacks.splice(index, 1);
+    }
+  }
+
+  addErrorCallback(callback: ErrorCallback) {
+    if (this.error) {
+      callback(this.error);
+    }
+    this.errorCallbacks.push(callback);
+  }
+
+  removeErrorCallback(callback: ErrorCallback) {
+    const index = this.errorCallbacks.indexOf(callback);
+    if (index > -1) {
+      this.errorCallbacks.splice(index, 1);
+    }
+  }
+
+  getConnectionStatus() {
+    return this.connectionStatus;
+  }
+
+  getTeamId() {
+    return this.teamId;
+  }
+
+  getChannelId() {
+    return this.channelId;
+  }
+
+  getChannelName() {
+    return this.channelName;
+  }
+
+  async join() {
+    const {email, channelId, teamId, channelName} = await this.sendCommand<any, any>('join', {});
+    if (!email || !channelId || !teamId || !channelName) {
+      console.error(`Client ready without email or channel. Disconnecting...`);
+      this.client.close();
     }
 
-    addStatusCallback(callback: ConnectionCallback) {
-        callback(this.connectionStatus);
-        this.statusCallbacks.push(callback);
-    }
+    this.email = email;
+    this.teamId = teamId;
+    this.channelId = channelId;
+    this.channelName = channelName;
 
-    removeStatusCallback(callback: ConnectionCallback) {
-        const index = this.statusCallbacks.indexOf(callback);
-        if (index > -1) {
-            this.statusCallbacks.splice(index, 1);
+    console.log(`Client ready: ${email}, ${channelId}`);
+    this.fireStatusChange(ConnectionStatus.CONNECTED);
+
+    await this.requestHistory();
+  }
+
+  async postMessage(text: string, ts?: string) {
+    return this.sendCommand<any, any>('post', {
+      threadId: ts,
+      user: {
+        name: this.email,
+      },
+      text
+    });
+  }
+
+  async requestHistory() {
+    const latest = this.history.length > 0 ? this.history[this.history.length - 1].ts : undefined;
+    console.log(`requesting history, latest: ${latest}`);
+    const messages: Message[] = await this.sendCommand<Message[], any>('history', { latest });
+    messages.forEach((message: any) => {
+      this.history.push(message);
+    });
+    console.log(`received ${messages.length} messages`);
+    this.messageCallbacks.forEach(callback => callback(this.history));
+    return messages.length > 0;
+  }
+
+  async getReplies(ts: string) {
+    return this.sendCommand<Message[], any>('replies', { ts });
+  }
+
+  private sendCommand<T, P>(command: string, data: P, timeout: number = 5000): Promise<T> {
+    return new Promise<T>((resolve, reject) => {
+      const correlationId = uuid();
+      console.log(`sending command ${command} with correlationId ${correlationId}`);
+
+      const callback = (i: Websocket, ev: MessageEvent) => {
+        console.log(`received message with correlationId ${correlationId}`);
+        const data: any = JSON.parse(ev.data);
+        if (data.correlationId === correlationId) {
+
+          console.log(`received response for command ${command}`);
+          i.removeEventListener(WebsocketEvents.message, callback);
+
+          if (data.error) {
+            reject(new Error(data.error));
+          } else {
+            resolve(data.data);
+          }
         }
-    }
+      };
 
-    addMessageCallback(callback: MessageCallback) {
-        if (this.history.length > 0) {
-            callback(this.history);
-        }
-        this.messageCallbacks.push(callback);
-    }
+      setTimeout(() => {
+        console.warn(`timeout for command ${command}`);
+        this.client.removeEventListener(WebsocketEvents.message, callback);
+        reject(new Error('timeout'));
+      }, timeout);
 
-    removeMessageCallback(callback: MessageCallback) {
-        const index = this.messageCallbacks.indexOf(callback);
-        if (index > -1) {
-            this.messageCallbacks.splice(index, 1);
-        }
-    }
+      this.client.addEventListener(WebsocketEvents.message, callback);
 
-    addErrorCallback(callback: ErrorCallback) {
-        if (this.error) {
-            callback(this.error);
-        }
-        this.errorCallbacks.push(callback);
-    }
+      this.client.send(JSON.stringify({
+        type: command,
+        correlationId,
+        data
+      }));
+    });
+  }
 
-    removeErrorCallback(callback: ErrorCallback) {
-        const index = this.errorCallbacks.indexOf(callback);
-        if (index > -1) {
-            this.errorCallbacks.splice(index, 1);
-        }
-    }
+  private fireError(error: Error) {
+    this.error = error;
+    this.errorCallbacks.forEach(callback => callback(error));
+  }
 
-    getConnectionStatus() {
-        return this.connectionStatus;
-    }
+  private fireStatusChange(status: ConnectionStatus) {
+    this.connectionStatus = status;
+    this.statusCallbacks.forEach(callback => callback(status));
+  }
 
-    send(text: string, ts?: string) {
-        this.client.emit('message', {
-            threadId: ts,
-            user: {
-                name: this.email,
-            },
-            text
-        } as Message);
+  private fireMessage(message: Message) {
+    console.log("message: ", message);
+    if (message.threadId) {
+      const parent = this.history.find(m => m.ts === message.threadId);
+      if (parent) {
+        parent.replyCount = parent.replyCount ? parent.replyCount + 1 : 1;
+      }
+    } else {
+      this.history.unshift(message);
     }
-
-    getTeamId() {
-        return this.teamId;
-    }
-
-    getChannelId() {
-        return this.channelId;
-    }
-
-    getChannelName() {
-        return this.channelName;
-    }
-
-    async getReplies(ts: string) {
-        console.log(`requesting replies for ${ts}`)
-        const replies: Message[] = await this.client.emitWithAck('replies', { ts });
-        console.log(`received ${replies.length} replies`);
-        return replies;
-    }
-
-    async requestHistory() {
-        const latest = this.history.length > 0 ? this.history[this.history.length - 1].ts : undefined;
-        console.log(`requesting history, latest: ${latest}`);
-        const messages: Message[] = await this.client.emitWithAck('history', { latest });
-        console.log(`received ${messages.length} messages`);
-        messages.forEach(message => {
-            this.history.push(message);
-        });
-        this.messageCallbacks.forEach(callback => callback(this.history));
-        return messages.length > 0;
-    }
-
-    private fireStatusChange(status: ConnectionStatus) {
-        this.connectionStatus = status;
-        this.statusCallbacks.forEach(callback => callback(status));
-    }
-
-    private fireMessage(message: Message) {
-        console.log("message: ", message);
-        if (message.threadId) {
-            const parent = this.history.find(m => m.ts === message.threadId);
-            if (parent) {
-                parent.replyCount = parent.replyCount ? parent.replyCount + 1 : 1;
-            }
-        } else {
-            this.history.unshift(message);
-        }
-        this.messageCallbacks.forEach(callback => callback(this.history));
-    }
-
-    fireError(error: Error) {
-        this.error = error;
-        this.errorCallbacks.forEach(callback => callback(error));
-    }
+    this.messageCallbacks.forEach(callback => callback(this.history));
+  }
 }
