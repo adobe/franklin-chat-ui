@@ -34,7 +34,7 @@
   },
   "scripts": {
     "start": "dotenv -c -- react-scripts start",
-    "build": "dotenv -- react-scripts build",
+    "build": "BUILD_PATH='./build' dotenv -- react-scripts build",
     "test": "dotenv -c -- react-scripts test",
     "eject": "react-scripts eject",
     "semantic-release": "semantic-release"
