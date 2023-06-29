@@ -3,4 +3,3 @@ mountpoints:
 
 folders:
   /: /build/index.html
-  
