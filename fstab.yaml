@@ -1,2 +1,6 @@
 mountpoints:
   /: https://drive.google.com/drive/folders/1MlfI4ghY9RdHUYf9xrX_7S_qdBEDEoaC
+
+folders:
+  /: /build/index.html
+  
