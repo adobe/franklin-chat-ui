@@ -1,3 +1,10 @@
+# [1.21.0](https://github.com/adobe/franklin-chat-ui/compare/v1.20.1...v1.21.0) (2023-06-29)
+
+
+### Features
+
+* build as homepage ([#23](https://github.com/adobe/franklin-chat-ui/issues/23)) ([947d0e5](https://github.com/adobe/franklin-chat-ui/commit/947d0e5d3e6acdd25f0145e3f1bd9e8b9efaffdb))
+
 ## [1.20.1](https://github.com/adobe/franklin-chat-ui/compare/v1.20.0...v1.20.1) (2023-05-26)
 
 
