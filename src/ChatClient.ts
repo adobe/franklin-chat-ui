@@ -63,7 +63,7 @@ export class ChatClient {
         this.client.on("disconnect", () => { this.fireStatusChange(ConnectionStatus.DISCONNECTED) });
         this.client.on("error", (error) => {
             console.log(`Error: ${error}`);
-            sampleRUM('chat:client', { source: 'error', target: error });
+            sampleRUM('chat:error', { source: 'client#socket', target: error });
             this.fireError(new Error(error));
         });
 
@@ -77,7 +77,7 @@ export class ChatClient {
             this.channelId = channelId;
             this.channelName = channelName;
             console.log(`Client ready: ${email}, ${channelId}`);
-            sampleRUM('chat:client', { source: 'ready', target: channelId });
+            sampleRUM('chat:ready', { source: 'client#socket', target: channelId });
             this.fireStatusChange(ConnectionStatus.CONNECTED);
             await this.requestHistory();
         });
