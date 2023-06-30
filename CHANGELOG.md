@@ -4,6 +4,23 @@
 ### Bug Fixes
 
 * attempt to fix release versioning ([fff016d](https://github.com/adobe/franklin-chat-ui/commit/fff016d5cf8d84f812587edc3b16e77c4b95b511))
+* trigger release ([1bb8e9e](https://github.com/adobe/franklin-chat-ui/commit/1bb8e9eb0d1dd88396c9f735a232a106584db4fe))
+* trigger release ([e18a7c3](https://github.com/adobe/franklin-chat-ui/commit/e18a7c3fc8e695b08cc181e9e692921b94238106))
+* trigger release ([6731fe8](https://github.com/adobe/franklin-chat-ui/commit/6731fe8e4c8293e93d4f4e13652e3e75609b7eb8))
+* trigger release ([53fa0ad](https://github.com/adobe/franklin-chat-ui/commit/53fa0ad0fe00a2f733e9e28c2306ef25dd0d2e3d))
+
+
+### Features
+
+* build as homepage ([#23](https://github.com/adobe/franklin-chat-ui/issues/23)) ([947d0e5](https://github.com/adobe/franklin-chat-ui/commit/947d0e5d3e6acdd25f0145e3f1bd9e8b9efaffdb))
+* collect rum data ([#25](https://github.com/adobe/franklin-chat-ui/issues/25)) ([aee4e8b](https://github.com/adobe/franklin-chat-ui/commit/aee4e8b36a61aa8b2d6eb5e4a820ee013b24d66c))
+
+# [1.21.0](https://github.com/adobe/franklin-chat-ui/compare/v1.20.1...v1.21.0) (2023-06-30)
+
+
+### Bug Fixes
+
+* attempt to fix release versioning ([fff016d](https://github.com/adobe/franklin-chat-ui/commit/fff016d5cf8d84f812587edc3b16e77c4b95b511))
 * trigger release ([e18a7c3](https://github.com/adobe/franklin-chat-ui/commit/e18a7c3fc8e695b08cc181e9e692921b94238106))
 * trigger release ([6731fe8](https://github.com/adobe/franklin-chat-ui/commit/6731fe8e4c8293e93d4f4e13652e3e75609b7eb8))
 * trigger release ([53fa0ad](https://github.com/adobe/franklin-chat-ui/commit/53fa0ad0fe00a2f733e9e28c2306ef25dd0d2e3d))
