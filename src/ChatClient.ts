@@ -1,4 +1,5 @@
 import {io, Socket} from 'socket.io-client';
+import {sampleRUM} from "./rum";
 
 export type User = {
     name: string,
@@ -62,6 +63,7 @@ export class ChatClient {
         this.client.on("disconnect", () => { this.fireStatusChange(ConnectionStatus.DISCONNECTED) });
         this.client.on("error", (error) => {
             console.log(`Error: ${error}`);
+            sampleRUM('chat:error', { source: 'client#socket', target: error });
             this.fireError(new Error(error));
         });
 
@@ -75,6 +77,7 @@ export class ChatClient {
             this.channelId = channelId;
             this.channelName = channelName;
             console.log(`Client ready: ${email}, ${channelId}`);
+            sampleRUM('chat:ready', { source: 'client#socket', target: channelId });
             this.fireStatusChange(ConnectionStatus.CONNECTED);
             await this.requestHistory();
         });
@@ -133,6 +136,7 @@ export class ChatClient {
             },
             text
         } as Message);
+        sampleRUM('chat:client', { source: 'message', target: this.channelId });
     }
 
     getTeamId() {
