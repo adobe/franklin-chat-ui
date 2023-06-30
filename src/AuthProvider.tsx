@@ -24,7 +24,7 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({children}) => {
       login: async (email: string) => {
         try {
           console.log(`Trying to login with email: ${email}`);
-          sampleRUM('chat:login', { source: 'attempt' });
+          sampleRUM('chat:login', { source: '#attempt' });
           setState({token: state.token, loading: true});
           const token = await magic.auth.loginWithMagicLink({email});
           setState({token, loading: false});
