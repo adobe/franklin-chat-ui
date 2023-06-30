@@ -1,6 +1,6 @@
 {
   "name": "franklin-chat-ui",
-  "version": "1.22.0",
+  "version": "1.21.0",
   "private": true,
   "homepage": "/build",
   "dependencies": {
@@ -30,7 +30,7 @@
     "@types/react": "18.0.12",
     "@types/react-dom": "18.0.5",
     "dotenv-cli": "7.2.1",
-    "semantic-release": "20.1.1"
+    "semantic-release": "21.0.6"
   },
   "scripts": {
     "start": "dotenv -c -- react-scripts start",
