@@ -1,3 +1,10 @@
+# [1.22.0](https://github.com/adobe/franklin-chat-ui/compare/v1.21.1...v1.22.0) (2023-09-21)
+
+
+### Features
+
+* improve weight ([7a070a8](https://github.com/adobe/franklin-chat-ui/commit/7a070a883606819d52c35ed75f17f5e9e8889d8c))
+
 ## [1.21.1](https://github.com/adobe/franklin-chat-ui/compare/v1.21.0...v1.21.1) (2023-06-30)
 
 
