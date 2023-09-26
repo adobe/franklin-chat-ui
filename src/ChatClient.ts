@@ -188,9 +188,12 @@ export class ChatClient {
     return new Promise<T>((resolve, reject) => {
       const correlationId = uuid();
       console.log(`sending command ${command} with correlationId ${correlationId}`);
-
+      let handle = null as any;
       const callback = (i: Websocket, ev: MessageEvent) => {
         console.log(`received message with correlationId ${correlationId}`);
+        if (handle) {
+          clearTimeout(handle);
+        }
         const data: any = JSON.parse(ev.data);
         if (data.correlationId === correlationId) {
 
@@ -205,7 +208,7 @@ export class ChatClient {
         }
       };
 
-      setTimeout(() => {
+      handle = setTimeout(() => {
         console.warn(`timeout for command ${command}`);
         this.client.removeEventListener(WebsocketEvents.message, callback);
         reject(new Error('timeout'));
