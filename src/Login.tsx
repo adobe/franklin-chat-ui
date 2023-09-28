@@ -29,7 +29,7 @@ export default function Login() {
       <div style={{borderRadius: 25, border: '1px solid #ccc', padding: 10, boxShadow: '0 0 3px #ccc'}}>
       <Form width='300px' onSubmit={onLogin} margin={35}>
         <Flex direction="row" alignItems="center" gap={10} marginBottom={35}>
-          <Image src={logo} width={64} height={64}/>
+          <Image src={logo} width={64} height={64} alt="Logo"/>
           <Flex direction="column">
             <Heading level={2} margin={0}>Adobe Support</Heading>
             <Heading level={4} margin={0}>We are here to help!</Heading>

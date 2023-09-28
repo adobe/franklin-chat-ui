@@ -82,7 +82,7 @@ export function MessageEditorComponent({thread_ts}: {thread_ts?: string}) {
           </Menu>
         </MenuTrigger>
       </ButtonGroup>
-      <TextArea width="100%" onChange={setMessage} onKeyDown={onEnter} value={message} description="Shift+Enter for new line" height='100px' ref={inputRef}/>
+      <TextArea width="100%" onChange={setMessage} onKeyDown={onEnter} value={message} description="Shift+Enter for new line" height='100px' ref={inputRef} aria-label="Enter your message here"/>
       <ButtonGroup width="100%">
         <Button variant="primary" onPress={onDone} isDisabled={!message.length}>Send<Send/></Button>
       </ButtonGroup>
