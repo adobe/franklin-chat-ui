@@ -6,7 +6,6 @@ export function ChatTitle({title, colorScheme}: {title: string, colorScheme: str
     setOpacity(0);
     setTimeout(() => setOpacity(1), 100);
   }, [title]);
-  console.log(colorScheme)
   return (
     <h3 style={{
       color: colorScheme === 'dark' ? 'white' : 'black', margin: 0, fontStyle: 'normal',
