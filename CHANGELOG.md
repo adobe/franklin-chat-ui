@@ -1,3 +1,18 @@
+# [1.23.0](https://github.com/adobe/franklin-chat-ui/compare/v1.22.0...v1.23.0) (2023-10-03)
+
+
+### Bug Fixes
+
+* timeout cleanup ([da74169](https://github.com/adobe/franklin-chat-ui/commit/da74169a759e839f231735f0eac650042ddfb9da))
+
+
+### Features
+
+* add aws branch to semantic release ([020136d](https://github.com/adobe/franklin-chat-ui/commit/020136dd00725d6a4f8277b12a1b81e4a704294f))
+* add aws branch to semantic release ([68f6026](https://github.com/adobe/franklin-chat-ui/commit/68f60261efe4737b197cc81d922f169123448bbf))
+* better accessibility handling ([dcea29d](https://github.com/adobe/franklin-chat-ui/commit/dcea29da90cdbce8a9610f550d7c1f9595906cdf))
+* connect to aws service ([e6c15de](https://github.com/adobe/franklin-chat-ui/commit/e6c15de6a7e7ff5420478df16c49569ed40a2550))
+
 # [1.22.0](https://github.com/adobe/franklin-chat-ui/compare/v1.21.1...v1.22.0) (2023-09-21)
 
 
