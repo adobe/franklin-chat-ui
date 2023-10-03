@@ -1,5 +1,6 @@
 import {ConstantBackoff, Websocket, WebsocketBuilder,WebsocketEvents} from 'websocket-ts';
 import { v4 as uuid } from 'uuid';
+import {sampleRUM} from "./rum";
 
 export type User = {
   name: string,
@@ -59,6 +60,7 @@ export class ChatClient {
       })
       .onError((i, ev) => {
         console.log(`Websocket error: ${ev}`);
+        sampleRUM('chat:error', { source: 'client#socket', target: ev.target });
         this.fireError(new Error(`Websocket error: ${ev}`));
       })
       .onRetry((i, ev) => {
@@ -221,6 +223,8 @@ export class ChatClient {
         correlationId,
         data
       }));
+
+      sampleRUM('chat:client', { source: 'message', target: this.channelId });
     });
   }
 

@@ -2,7 +2,7 @@
 The Franklin Chat UI is a React app that connects to the Franklin Chat Service and allows users to chat with the Franklin team.
 
 ## Using the app
-- Open the app in a browser by going to https://aws--franklin-chat-ui--adobe.hlx.page/index.html
+- Open the app in a browser by going to https://main--franklin-chat-ui--adobe.hlx.live/index.html
 - Enter your business email address and click on the "Login" button
 - Open the email you received and click on the link
 - Go back to the app and start chatting

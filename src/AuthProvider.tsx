@@ -2,6 +2,7 @@ import React, {PropsWithChildren, useContext, useEffect, useMemo} from 'react';
 import {Magic} from 'magic-sdk';
 import Login from './Login';
 import {BusyDialog} from './BusyDialog';
+import { sampleRUM } from './rum';
 
 const REACT_MAGIC_LINK_API_KEY = process.env.REACT_APP_MAGIC_LINK_API_KEY as string;
 console.log(`Using Magic Link key: ${REACT_MAGIC_LINK_API_KEY}`);
@@ -23,25 +24,31 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({children}) => {
       login: async (email: string) => {
         try {
           console.log(`Trying to login with email: ${email}`);
+          sampleRUM('chat:login', { source: 'authClient#login' });
           setState({token: state.token, loading: true});
           const token = await magic.auth.loginWithMagicLink({email});
           setState({token, loading: false});
           console.log(`Logged in with email: ${email}`, JSON.stringify(token));
+          sampleRUM('chat:login-success', { source: 'authClient#login' });
         } catch (e) {
           console.error(`Failed to login with email: ${email}`, e);
           setState({token: state.token, loading: false});
+          sampleRUM('chat:login-failed', { source: 'authClient#login' });
         }
       },
       logout: async () => {
         try {
           console.log(`Trying to logout`);
+          sampleRUM('chat:logout', { source: 'authClient#logout' });
           setState({token: state.token, loading: true})
           await magic.user.logout();
           setState({token: null, loading: false})
           console.log(`Logged out`);
+          sampleRUM('chat:logout-success', { source: 'authClient#logout' });
         } catch (e) {
           console.error(`Failed to logout`, e);
           setState({token: state.token, loading: false});
+          sampleRUM('chat:logout-failed', { source: 'authClient#logout' });
         }
       },
       getToken: () => {
@@ -55,9 +62,11 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({children}) => {
       console.log(`Result of isLoggedIn: ${isLoggedIn}`);
       if (isLoggedIn) {
         console.log(`Logged in. Refreshing token...`);
+        sampleRUM('chat:login', { source: 'token-check' });
         magic.user.getIdToken().then((token) => {
           console.log(`Fresh token: ${token}`);
           setState({token, loading: false});
+          sampleRUM('chat:login', { source: 'token-refreshed' });
         });
         return;
       }
