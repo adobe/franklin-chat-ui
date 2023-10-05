@@ -1,3 +1,10 @@
+# [1.24.0](https://github.com/adobe/franklin-chat-ui/compare/v1.23.0...v1.24.0) (2023-10-05)
+
+
+### Features
+
+* aws endpoint secret ([3fb8f6c](https://github.com/adobe/franklin-chat-ui/commit/3fb8f6cf242f48b0d007fd87b56ad108d5760fd2))
+
 # [1.23.0](https://github.com/adobe/franklin-chat-ui/compare/v1.22.0...v1.23.0) (2023-10-03)
 
 
