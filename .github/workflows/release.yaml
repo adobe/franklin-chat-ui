@@ -19,5 +19,5 @@ jobs:
       - run: npm run semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          REACT_APP_SERVICE_ENDPOINT: ${{ secrets.REACT_APP_SERVICE_ENDPOINT }}
+          REACT_APP_AWS_SERVICE_ENDPOINT: ${{ secrets.REACT_APP_AWS_SERVICE_ENDPOINT }}
           REACT_APP_MAGIC_LINK_API_KEY: ${{ secrets.REACT_APP_MAGIC_LINK_API_KEY }}

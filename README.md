@@ -11,7 +11,7 @@ The Franklin Chat UI is a React app that connects to the Franklin Chat Service a
 
 To build and deploy the app, you need to create a `.env` file in the root directory with the following properties:
 ```
-REACT_APP_SERVICE_ENDPOINT=ws://localhost:8081
+REACT_APP_AWS_SERVICE_ENDPOINT=ws://localhost:8081
 REACT_APP_MAGIC_LINK_API_KEY=...
 PORT=8080
 ```

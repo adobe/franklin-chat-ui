@@ -32,7 +32,7 @@ export type ConnectionCallback = (status: ConnectionStatus) => void;
 export type MessageCallback = (history: Message[]) => void;
 export type ErrorCallback = (error: Error) => void;
 
-const SERVICE_ENDPOINT = process.env.REACT_APP_SERVICE_ENDPOINT || 'ws://localhost:8081';
+const SERVICE_ENDPOINT = process.env.REACT_APP_AWS_SERVICE_ENDPOINT || 'ws://localhost:8081';
 console.log(`Using service endpoint: ${SERVICE_ENDPOINT}`);
 
 export class ChatClient {
