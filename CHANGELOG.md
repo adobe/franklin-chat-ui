@@ -1,3 +1,10 @@
+## [1.24.1](https://github.com/adobe/franklin-chat-ui/compare/v1.24.0...v1.24.1) (2023-10-20)
+
+
+### Bug Fixes
+
+* trigger release ([6d5557f](https://github.com/adobe/franklin-chat-ui/commit/6d5557ff788e2fde7527c0d9c4c2e10f15e58485))
+
 # [1.24.0](https://github.com/adobe/franklin-chat-ui/compare/v1.23.0...v1.24.0) (2023-10-05)
 
 
