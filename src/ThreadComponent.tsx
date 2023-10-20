@@ -33,7 +33,7 @@ export function ThreadComponent({ ts, close }: {ts: string, close: () => void}) 
           {replies.map((item) => (
             <div key={item.ts} style={{marginTop: 5, marginBottom: 5, paddingLeft: item.ts === ts ? 0 : 20}}>
               <Flex direction="row" flex={1} flexGrow={1}>
-                <Image src={item.user?.icon ?? DefaultUserIcon} width={42} height={42} margin={6}/>
+                <Image src={item.user?.icon ?? DefaultUserIcon} width={42} height={42} margin={6} alt="Avatar"/>
                 <Flex direction="column" flex={1} position='relative'>
                   <Flex direction="row">
                     <Flex direction="column" flexBasis='auto'>

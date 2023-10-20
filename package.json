@@ -1,6 +1,6 @@
 {
   "name": "franklin-chat-ui",
-  "version": "1.22.0",
+  "version": "1.25.0",
   "private": true,
   "homepage": "/build",
   "dependencies": {
@@ -14,27 +14,29 @@
     "react-infinite-scroll-component": "6.1.0",
     "react-router-dom": "6.9.0",
     "react-scripts": "5.0.1",
-    "socket.io-client": "4.6.1",
     "typescript": "4.7.3",
-    "web-vitals": "2.1.4"
+    "uuid": "9.0.0",
+    "web-vitals": "2.1.4",
+    "websocket-ts": "1.1.1"
   },
   "devDependencies": {
     "@semantic-release/changelog": "6.0.2",
     "@semantic-release/exec": "6.0.3",
     "@semantic-release/git": "10.0.1",
-    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/jest-dom": "5.16.4",
     "@testing-library/react": "13.3.0",
     "@testing-library/user-event": "13.5.0",
     "@types/jest": "27.5.2",
     "@types/node": "16.11.38",
     "@types/react": "18.0.12",
     "@types/react-dom": "18.0.5",
+    "@types/uuid": "9.0.2",
     "dotenv-cli": "7.2.1",
     "semantic-release": "21.0.6"
   },
   "scripts": {
-    "start": "dotenv -c -- react-scripts start",
-    "build": "dotenv -- react-scripts build",
+    "start": "REACT_APP_VERSION=$npm_package_version dotenv -c -- react-scripts start",
+    "build": "REACT_APP_VERSION=$npm_package_version dotenv -- react-scripts build",
     "test": "dotenv -c -- react-scripts test",
     "eject": "react-scripts eject",
     "semantic-release": "semantic-release"
