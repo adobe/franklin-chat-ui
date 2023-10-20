@@ -1,3 +1,26 @@
+# [2.0.0](https://github.com/adobe/franklin-chat-ui/compare/v1.22.0...v2.0.0) (2023-10-20)
+
+
+### Bug Fixes
+
+* major release ([af77457](https://github.com/adobe/franklin-chat-ui/commit/af77457fde39637696e7b3f14a26b68da6661ebc))
+* remove branch from release ([#34](https://github.com/adobe/franklin-chat-ui/issues/34)) ([ada2b3e](https://github.com/adobe/franklin-chat-ui/commit/ada2b3e9865c3b8c15e09f155c4d5c5216341d99))
+* trigger release ([1017a22](https://github.com/adobe/franklin-chat-ui/commit/1017a22e41fef0fe05d5a46d0bca53e39531778a))
+* trigger release\nBREAKING CHANGE: major re-architecture\n ([8eff9b1](https://github.com/adobe/franklin-chat-ui/commit/8eff9b15255c7c40024e30ddef23f71c0ab939bc))
+* version mess ([#33](https://github.com/adobe/franklin-chat-ui/issues/33)) ([fc891d1](https://github.com/adobe/franklin-chat-ui/commit/fc891d177424d9f91a8bc37863a3809641c67659))
+
+
+### Features
+
+* switch to aws backend ([#19](https://github.com/adobe/franklin-chat-ui/issues/19)) ([fe09eca](https://github.com/adobe/franklin-chat-ui/commit/fe09eca4bcf13dd7320c5d99ec5db159fa3026b3))
+* trigger major release attempt ([f83d9b8](https://github.com/adobe/franklin-chat-ui/commit/f83d9b805d800bee24dd9b6b0cbab4c36ca35183))
+
+
+### BREAKING CHANGES
+
+* switch to aws backend
+* switch to aws backend
+
 # [1.25.0](https://github.com/adobe/franklin-chat-ui/compare/v1.24.0...v1.25.0) (2023-10-20)
 
 
