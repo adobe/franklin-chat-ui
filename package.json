@@ -1,5 +1,6 @@
 {
   "name": "franklin-chat-ui",
+  "description": "Franklin Chat UI",
   "version": "1.23.0",
   "private": true,
   "homepage": "/build",
