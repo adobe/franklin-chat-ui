@@ -40,3 +40,11 @@ The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+
+### Cache flushing
+
+The project contains a folder mapping from `/` to `/build/index.html`. When releasing a new version, `/build/index.html` gets updated, https://main--franklin-chat-ui--adobe.hlx.live/build/index.html is flushed. There seems to be a limitation and the folder mapping does not get updated automatically, i.e. https://main--franklin-chat-ui--adobe.hlx.live/ will still serve the old version. To flush the folder mapping, you can run:
+
+```
+curl -X POST https://admin.hlx.page/code/adobe/franklin-chat-ui/main/*
+```
