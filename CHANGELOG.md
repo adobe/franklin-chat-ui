@@ -1,10 +1,3 @@
-# [1.23.0](https://github.com/adobe/franklin-chat-ui/compare/v1.22.0...v1.23.0) (2023-10-20)
-
-
-### Features
-
-* switch to aws backend ([#19](https://github.com/adobe/franklin-chat-ui/issues/19)) ([fe09eca](https://github.com/adobe/franklin-chat-ui/commit/fe09eca4bcf13dd7320c5d99ec5db159fa3026b3))
-
 # [1.25.0](https://github.com/adobe/franklin-chat-ui/compare/v1.24.0...v1.25.0) (2023-10-20)
 
 
