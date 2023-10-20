@@ -1,3 +1,10 @@
+# [1.25.0](https://github.com/adobe/franklin-chat-ui/compare/v1.24.0...v1.25.0) (2023-10-20)
+
+
+### Features
+
+* display current version ([1504c10](https://github.com/adobe/franklin-chat-ui/commit/1504c105756d36abf64ce515ec7c2482f4d592a8)), closes [#30](https://github.com/adobe/franklin-chat-ui/issues/30)
+
 # [1.24.0](https://github.com/adobe/franklin-chat-ui/compare/v1.23.0...v1.24.0) (2023-10-05)
 
 
