@@ -13,6 +13,7 @@ import {
 import logo from './logo.png';
 
 import {useAuthContext} from './AuthProvider';
+import {getAppVersion} from "./Utils";
 
 export default function Login() {
   const {login} = useAuthContext();
@@ -32,7 +33,7 @@ export default function Login() {
           <Image src={logo} width={64} height={64} alt="Logo"/>
           <Flex direction="column">
             <Heading level={2} margin={0}>Adobe Support</Heading>
-            <Heading level={4} margin={0}>We are here to help!</Heading>
+            <Heading level={4} margin={0}>v{getAppVersion()}</Heading>
           </Flex>
         </Flex>
         <TextField label="Enter your business email address" value={email} onChange={setEmail} width='300px' isQuiet contextualHelp={

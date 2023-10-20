@@ -20,7 +20,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import {useAuthContext} from './AuthProvider';
 import {ThreadComponent} from './ThreadComponent';
 import {MessageEditorComponent} from './MessageEditorComponent';
-import {convertSlackTimestampToUTC, convertSlackToHtml} from './Utils';
+import {convertSlackTimestampToUTC, convertSlackToHtml, getAppVersion} from './Utils';
 import {ChatTitle} from './ChatTitle';
 import {ConnectionStatus} from "./ChatClient";
 
@@ -63,6 +63,7 @@ function ChatComponent(){
         <Image src={Logo} width={32} height={32} alt="Logo"/>
         <ChatTitle title={connectionStatus === ConnectionStatus.CONNECTED ? 'Connected to Adobe!' : 'Disconnected'} colorScheme={colorScheme}/>
         <View flexGrow={1}/>
+        <Text>v{getAppVersion()}</Text>
         <Button onPress={logout} variant='primary' isDisabled={connectionStatus !== ConnectionStatus.CONNECTED}>Logout&nbsp;<Logout/></Button>
       </Flex>
       <Divider orientation="horizontal" size="S" />

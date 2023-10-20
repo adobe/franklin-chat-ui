@@ -58,6 +58,13 @@ const EMOJIS: { [key: string]: string } = {
   ':slightly_smiling_face:': '🙂',
 };
 
+const APP_VERSION = process.env.REACT_APP_VERSION || 'unknown';
+console.log(`App version: ${APP_VERSION}`);
+
+export function getAppVersion() {
+  return APP_VERSION;
+}
+
 export const REVERSED_EMOJIS: { [key: string]: string } = Object.entries(EMOJIS).reduce(
   (acc, [key, value]) => {
     acc[value] = key;
