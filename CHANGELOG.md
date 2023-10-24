@@ -1,3 +1,10 @@
+## [2.0.1](https://github.com/adobe/franklin-chat-ui/compare/v2.0.0...v2.0.1) (2023-10-24)
+
+
+### Bug Fixes
+
+* **index:** update app title ([#35](https://github.com/adobe/franklin-chat-ui/issues/35)) ([439f7a8](https://github.com/adobe/franklin-chat-ui/commit/439f7a84bab73f1d50e0bfc48d804deac7a2ba25))
+
 # [2.0.0](https://github.com/adobe/franklin-chat-ui/compare/v1.22.0...v2.0.0) (2023-10-20)
 
 
