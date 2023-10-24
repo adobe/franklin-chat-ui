@@ -1,6 +1,7 @@
 import {ConstantBackoff, Websocket, WebsocketBuilder,WebsocketEvents} from 'websocket-ts';
 import { v4 as uuid } from 'uuid';
 import {sampleRUM} from "./rum";
+import {getAppVersion} from "./Utils";
 
 export type User = {
   name: string,
@@ -143,7 +144,9 @@ export class ChatClient {
   }
 
   async join() {
-    const {email, channelId, teamId, channelName} = await this.sendCommand<any, any>('join', {});
+    const {email, channelId, teamId, channelName} = await this.sendCommand<any, any>('join', {
+      version: getAppVersion(),
+    });
     if (!email || !channelId || !teamId || !channelName) {
       console.error(`Client ready without email or channel. Disconnecting...`);
       this.client.close();
