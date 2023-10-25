@@ -1,3 +1,10 @@
+# [2.1.0](https://github.com/adobe/franklin-chat-ui/compare/v2.0.1...v2.1.0) (2023-10-25)
+
+
+### Features
+
+* send client version ([#36](https://github.com/adobe/franklin-chat-ui/issues/36)) ([9f8534d](https://github.com/adobe/franklin-chat-ui/commit/9f8534de8b4e9de05de557ee551b6936513f2b01))
+
 ## [2.0.1](https://github.com/adobe/franklin-chat-ui/compare/v2.0.0...v2.0.1) (2023-10-24)
 
 
