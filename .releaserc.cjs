@@ -16,6 +16,9 @@ module.exports = {
       'message': 'chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}',
     }],
     ['@semantic-release/github', {}],
+    ['@semantic-release/exec', {
+      'success': 'curl -X POST "https://admin.hlx.page/code/adobe/franklin-chat-ui/main/*"' // required to flush CDN root folder mapping
+    }],
   ],
   branches: ['main'],
 };
