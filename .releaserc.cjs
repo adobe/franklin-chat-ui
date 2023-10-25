@@ -17,7 +17,8 @@ module.exports = {
     }],
     ['@semantic-release/github', {}],
     ['@semantic-release/exec', {
-      'success': 'curl -X POST "https://admin.hlx.page/code/adobe/franklin-chat-ui/main/*"' // required to flush CDN root folder mapping
+      // required to flush CDN root folder mapping - see https://github.com/adobe/helix-admin/issues/1612
+      'success': 'curl -X POST "https://admin.hlx.page/code/adobe/franklin-chat-ui/main/*"'
     }],
   ],
   branches: ['main'],
