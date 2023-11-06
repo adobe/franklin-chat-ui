@@ -216,6 +216,7 @@ export class ChatClient {
       handle = setTimeout(() => {
         console.warn(`timeout for command ${command}`);
         this.client.removeEventListener(WebsocketEvents.message, callback);
+        this.client.close();
         reject(new Error('timeout'));
       }, timeout);
 
