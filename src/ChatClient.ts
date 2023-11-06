@@ -60,9 +60,9 @@ export class ChatClient {
         this.fireStatusChange(ConnectionStatus.DISCONNECTED)
       })
       .onError((i, ev) => {
-        console.log(`Websocket error: ${ev}`);
+        console.log('Websocket error', ev);
         sampleRUM('chat:error', { source: 'client#socket', target: ev.target });
-        this.fireError(new Error(`Websocket error: ${ev}`));
+        this.fireError(new Error('Websocket error'));
       })
       .onRetry((i, ev) => {
         console.log("retry")
