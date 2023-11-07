@@ -150,6 +150,7 @@ export class ChatClient {
     if (!email || !channelId || !teamId || !channelName) {
       console.error(`Client ready without email or channel. Disconnecting...`);
       this.client.close();
+      throw new Error('No mapping found');
     }
 
     this.email = email;
@@ -216,7 +217,6 @@ export class ChatClient {
       handle = setTimeout(() => {
         console.warn(`timeout for command ${command}`);
         this.client.removeEventListener(WebsocketEvents.message, callback);
-        this.client.close();
         reject(new Error('timeout'));
       }, timeout);
 
