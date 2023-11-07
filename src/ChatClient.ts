@@ -150,7 +150,7 @@ export class ChatClient {
     if (!email || !channelId || !teamId || !channelName) {
       console.error(`Client ready without email or channel. Disconnecting...`);
       this.client.close();
-      throw new Error('No mapping found');
+      this.fireError(new Error('No mapping found.'));
     }
 
     this.email = email;
