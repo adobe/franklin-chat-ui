@@ -1,3 +1,10 @@
+# [2.2.0](https://github.com/adobe/franklin-chat-ui/compare/v2.1.0...v2.2.0) (2023-11-13)
+
+
+### Features
+
+* close client when no mapping found ([#37](https://github.com/adobe/franklin-chat-ui/issues/37)) ([2573d4f](https://github.com/adobe/franklin-chat-ui/commit/2573d4f19fdcc7d678349aecc484a0b5f7db8330))
+
 # [2.1.0](https://github.com/adobe/franklin-chat-ui/compare/v2.0.1...v2.1.0) (2023-10-25)
 
 
