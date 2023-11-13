@@ -137,6 +137,7 @@ function ChatComponent(){
             title="Ops! Something went wrong."
             variant="error"
             primaryActionLabel="Logout">
+            You are probably not allowed to use the chat.<br/>
             Please contact Adobe support.
           </AlertDialog>
         }

@@ -60,9 +60,9 @@ export class ChatClient {
         this.fireStatusChange(ConnectionStatus.DISCONNECTED)
       })
       .onError((i, ev) => {
-        console.log(`Websocket error: ${ev}`);
+        console.log('Websocket error', ev);
         sampleRUM('chat:error', { source: 'client#socket', target: ev.target });
-        this.fireError(new Error(`Websocket error: ${ev}`));
+        this.fireError(new Error('Websocket error'));
       })
       .onRetry((i, ev) => {
         console.log("retry")
@@ -144,23 +144,32 @@ export class ChatClient {
   }
 
   async join() {
-    const {email, channelId, teamId, channelName} = await this.sendCommand<any, any>('join', {
-      version: getAppVersion(),
-    });
-    if (!email || !channelId || !teamId || !channelName) {
-      console.error(`Client ready without email or channel. Disconnecting...`);
+    try {
+      const {email, channelId, teamId, channelName} = await this.sendCommand<any, any>('join', {
+        version: getAppVersion(),
+      });
+      if (!email || !channelId || !teamId || !channelName) {
+        console.error(`Client ready without email or channel. Disconnecting...`);
+        this.client.close();
+        this.fireError(new Error('No mapping found.'));
+        return;
+      }
+
+      this.email = email;
+      this.teamId = teamId;
+      this.channelId = channelId;
+      this.channelName = channelName;
+
+      console.log(`Client ready: ${email}, ${channelId}`);
+      this.fireStatusChange(ConnectionStatus.CONNECTED);
+
+      await this.requestHistory();
+    } catch (e: any) {
+      console.error(`Impossible to join. Disconnecting...`);
       this.client.close();
+      this.fireError(new Error(e.message));
+      return;
     }
-
-    this.email = email;
-    this.teamId = teamId;
-    this.channelId = channelId;
-    this.channelName = channelName;
-
-    console.log(`Client ready: ${email}, ${channelId}`);
-    this.fireStatusChange(ConnectionStatus.CONNECTED);
-
-    await this.requestHistory();
   }
 
   async postMessage(text: string, ts?: string) {
