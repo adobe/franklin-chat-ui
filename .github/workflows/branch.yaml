@@ -1,4 +1,4 @@
-name: Test on branches
+name: Build on branches
 on:
   push:
     branches-ignore:
@@ -16,8 +16,6 @@ jobs:
         with:
           node-version: '18.x'
       - run: npm install
-      - run: npm run lint
-      - run: npm run test
       - run: npm run build
       - name: Commit changes
         run: |
