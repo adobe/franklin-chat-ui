@@ -1,0 +1,28 @@
+name: Test on branches
+on:
+  push:
+    branches-ignore:
+      - 'main'
+    paths-ignore:
+       - 'build/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js 18.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+      - run: npm install
+      - run: npm run lint
+      - run: npm run test
+      - run: npm run build
+      - name: Commit changes
+        run: |
+          git config --local user.email "helix@adobe.com"
+          git config --local user.name "CI Bot"
+          git add *
+          git commit -m "chore(auto): Commit build artifacts [skip ci]"
+          git push
