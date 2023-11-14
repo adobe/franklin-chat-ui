@@ -21,6 +21,6 @@ jobs:
         run: |
           git config --local user.email "helix@adobe.com"
           git config --local user.name "CI Bot"
-          git add *
+          git add --force build/**
           git commit -m "chore(auto): Commit build artifacts [skip ci]"
           git push
