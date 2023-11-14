@@ -24,3 +24,7 @@ jobs:
           git add --force build/**
           git commit -m "chore(auto): Commit build artifacts [skip ci]"
           git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REACT_APP_AWS_SERVICE_ENDPOINT: ${{ secrets.REACT_APP_SERVICE_ENDPOINT_DEV }}
+          REACT_APP_MAGIC_LINK_API_KEY: ${{ secrets.REACT_APP_MAGIC_LINK_API_KEY }}
