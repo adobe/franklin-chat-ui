@@ -65,6 +65,30 @@ export function getAppVersion() {
   return APP_VERSION;
 }
 
+export async function checkVersion() {
+  try {
+    const url = new URL(window.location.href);
+    if (url.searchParams.has('ck')) {
+      url.searchParams.delete('ck');
+      window.history.replaceState({}, '', url.toString());
+    } else if (!url.hostname.startsWith('localhost')) {
+      // do not reload if running locally and if ck is already present to avoid infinite reload loop
+      // next join will try again
+      const res = await fetch('/package.json');
+      if (res.ok) {
+        const json = await res.json();
+        if (json.version !== APP_VERSION) {
+          console.log('You are running an old version of the app. We are reloading your browser.');
+          url.searchParams.set('ck', new Date().getTime().toString());
+          window.location.replace(url.toString()); 
+        }
+      }
+    }
+  } catch (e) {
+    console.error('Error in version checker',e);
+  }
+}
+
 export const REVERSED_EMOJIS: { [key: string]: string } = Object.entries(EMOJIS).reduce(
   (acc, [key, value]) => {
     acc[value] = key;

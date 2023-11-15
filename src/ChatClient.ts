@@ -1,7 +1,7 @@
 import {ConstantBackoff, Websocket, WebsocketBuilder,WebsocketEvents} from 'websocket-ts';
 import { v4 as uuid } from 'uuid';
 import {sampleRUM} from "./rum";
-import {getAppVersion} from "./Utils";
+import {getAppVersion, checkVersion} from "./Utils";
 
 export type User = {
   name: string,
@@ -145,6 +145,8 @@ export class ChatClient {
 
   async join() {
     try {
+      // check client version before joining
+      await checkVersion();
       const {email, channelId, teamId, channelName} = await this.sendCommand<any, any>('join', {
         version: getAppVersion(),
       });
