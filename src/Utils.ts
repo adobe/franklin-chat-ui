@@ -71,9 +71,9 @@ export async function checkVersion() {
     if (url.searchParams.has('ck')) {
       url.searchParams.delete('ck');
       window.history.replaceState({}, '', url.toString());
-    }
-  
-    if (!url.hostname.startsWith('localhost')) {
+    } else if (!url.hostname.startsWith('localhost')) {
+      // do not reload if running locally and if ck is already present to avoid infinite reload loop
+      // next join will try again
       const res = await fetch('/package.json');
       if (res.ok) {
         const json = await res.json();
