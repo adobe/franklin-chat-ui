@@ -146,7 +146,7 @@ export class ChatClient {
   async join() {
     try {
       // check client version before joining
-      checkVersion();
+      await checkVersion();
       const {email, channelId, teamId, channelName} = await this.sendCommand<any, any>('join', {
         version: getAppVersion(),
       });
