@@ -1,7 +1,7 @@
 {
   "name": "franklin-chat-ui",
   "description": "Franklin Chat UI",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "private": true,
   "homepage": "/build",
   "dependencies": {
