@@ -1,6 +1,6 @@
-# uncomment if you need build version of the app on the branch
-# note: before merging to main changes in the build folder should be reverted to avoid temporarily deploying
-# the branch version in production
+# uncomment if you need build a version of the app from the branch
+# note: before merging to main, all changes in the build folder must should be reverted to 
+# avoid temporarily deploying the branch version in production
 
 # name: Build on branches
 # on:
