@@ -13,6 +13,8 @@ import {
 import Send from '@spectrum-icons/workflow/Send';
 import {convertAllUnicodeToEmoji} from './Utils';
 import {useApplicationContext} from './ApplicationProvider';
+import {MemberPicker} from "./MembersPicker";
+import {User} from "./ChatClient";
 
 export function MessageEditorComponent({thread_ts}: {thread_ts?: string}) {
   const {chatClient} = useApplicationContext();
@@ -36,6 +38,19 @@ export function MessageEditorComponent({thread_ts}: {thread_ts?: string}) {
       }
     }
   };
+
+  const onMention = useCallback((mention: User) => {
+    console.log(`mentioning <@U${mention.id}|${mention.name}>...`);
+    const textarea = inputRef.current.getInputElement() as HTMLTextAreaElement;
+    if (textarea && textarea.value !== undefined) {
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+      const text = textarea.value;
+      const newText = text.substring(0, start) + `<@${mention.id}>` + text.substring(end);
+      setMessage(newText);
+      textarea.focus();
+    }
+  }, [inputRef]);
 
   const wrapSelectedText = useCallback((wrapper: string) => {
     const textarea = inputRef.current.getInputElement() as HTMLTextAreaElement;
@@ -66,7 +81,7 @@ export function MessageEditorComponent({thread_ts}: {thread_ts?: string}) {
 
   return (
     <Flex direction='column' margin={10}>
-      <ButtonGroup>
+      <ButtonGroup margin={10}>
         <ActionButton isQuiet onPress={() => wrapSelectedText('*')}>B</ActionButton>
         <ActionButton isQuiet onPress={() => wrapSelectedText('_')}>I</ActionButton>
         <MenuTrigger>
@@ -81,6 +96,7 @@ export function MessageEditorComponent({thread_ts}: {thread_ts?: string}) {
             <Item key="👎">👎</Item>
           </Menu>
         </MenuTrigger>
+        <MemberPicker onChange={onMention}/>
       </ButtonGroup>
       <TextArea width="100%" onChange={setMessage} onKeyDown={onEnter} value={message} description="Shift+Enter for new line" height='100px' ref={inputRef} aria-label="Enter your message here"/>
       <ButtonGroup width="100%">
