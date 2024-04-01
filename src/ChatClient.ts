@@ -4,6 +4,7 @@ import {sampleRUM} from "./rum";
 import {getAppVersion, checkVersion} from "./Utils";
 
 export type User = {
+  id: string,
   name: string,
   icon?: string,
 };
@@ -143,7 +144,37 @@ export class ChatClient {
     return this.channelName;
   }
 
-  async join() {
+  async postMessage(text: string, ts?: string) {
+    return this.sendCommand<any, any>('post', {
+      threadId: ts,
+      user: {
+        name: this.email,
+      },
+      text
+    });
+  }
+
+  async requestHistory() {
+    const latest = this.history.length > 0 ? this.history[this.history.length - 1].ts : undefined;
+    console.log(`requesting history, latest: ${latest}`);
+    const messages: Message[] = await this.sendCommand<Message[], any>('history', { latest });
+    messages.forEach((message: any) => {
+      this.history.push(message);
+    });
+    console.log(`received ${messages.length} messages`);
+    this.messageCallbacks.forEach(callback => callback(this.history));
+    return messages.length > 0;
+  }
+
+  async getReplies(ts: string) {
+    return this.sendCommand<Message[], any>('replies', { ts });
+  }
+
+  async getMembers() {
+    return this.sendCommand<User[], any>('members', {});
+  }
+
+  private async join() {
     try {
       // check client version before joining
       await checkVersion();
@@ -174,32 +205,6 @@ export class ChatClient {
     }
   }
 
-  async postMessage(text: string, ts?: string) {
-    return this.sendCommand<any, any>('post', {
-      threadId: ts,
-      user: {
-        name: this.email,
-      },
-      text
-    });
-  }
-
-  async requestHistory() {
-    const latest = this.history.length > 0 ? this.history[this.history.length - 1].ts : undefined;
-    console.log(`requesting history, latest: ${latest}`);
-    const messages: Message[] = await this.sendCommand<Message[], any>('history', { latest });
-    messages.forEach((message: any) => {
-      this.history.push(message);
-    });
-    console.log(`received ${messages.length} messages`);
-    this.messageCallbacks.forEach(callback => callback(this.history));
-    return messages.length > 0;
-  }
-
-  async getReplies(ts: string) {
-    return this.sendCommand<Message[], any>('replies', { ts });
-  }
-
   private sendCommand<T, P>(command: string, data: P, timeout: number = 5000): Promise<T> {
     return new Promise<T>((resolve, reject) => {
       const correlationId = uuid();
@@ -211,6 +216,7 @@ export class ChatClient {
           clearTimeout(handle);
         }
         const data: any = JSON.parse(ev.data);
+        console.log(`received message with correlationId ${data.correlationId} and data ${JSON.stringify(data)}`);
         if (data.correlationId === correlationId) {
 
           console.log(`received response for command ${command}`);
